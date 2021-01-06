@@ -19,12 +19,10 @@ import com.vaadin.service.interfaces.WalletService;
 public class Wallets extends VerticalLayout {
 
     private WalletForm form;
-    private WalletService walletService;
 
     final Grid<Wallet> walletGrid = new Grid<>(Wallet.class);
 
-    public Wallets(WalletService walletService) {
-        this.walletService = walletService;
+    public Wallets() {
 
         addClassName("list-view");
         setSizeFull();

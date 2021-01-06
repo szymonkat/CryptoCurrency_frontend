@@ -24,12 +24,10 @@ import java.util.List;
 public class WalletItems extends VerticalLayout {
 
     private WalletItemForm walletItemForm;
-    private WalletItemService walletItemService;
 
     final Grid<WalletItem> walletItemGrid = new Grid<>(WalletItem.class);
 
-    public WalletItems(WalletItemService walletItemService, WalletService walletService) {
-        this.walletItemService = walletItemService;
+    public WalletItems() {
 
         addClassName("list-view");
         setSizeFull();

@@ -10,34 +10,19 @@ import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.service.interfaces.ExchangePortalService;
-import com.vaadin.service.interfaces.ItemToBuyService;
-import com.vaadin.service.interfaces.WalletItemService;
-import com.vaadin.service.interfaces.WalletService;
 
 @CssImport("./styles/styles.css")
 @Route(value = "allData", layout = MainLayout.class)
 @PageTitle("All data")
 public class AllData extends VerticalLayout {
 
-    private WalletService walletService;
-    private WalletItemService walletItemService;
-    private ExchangePortalService exchangePortalService;
-    private ItemToBuyService itemToBuyService;
 
     final Grid<Wallet> walletGrid = new Grid<>(Wallet.class);
     final Grid<WalletItem> walletItemGrid = new Grid<>(WalletItem.class);
     final Grid<ExchangePortal> exchangePortalGrid = new Grid<>(ExchangePortal.class);
     final Grid<ItemToBuy> itemToBuyGrid = new Grid<>(ItemToBuy.class);
 
-    public AllData(WalletService walletService,
-                   WalletItemService walletItemService,
-                   ExchangePortalService exchangePortalService,
-                   ItemToBuyService itemToBuyService) {
-        this.walletService = walletService;
-        this.walletItemService = walletItemService;
-        this.exchangePortalService = exchangePortalService;
-        this.itemToBuyService = itemToBuyService;
+    public AllData() {
 
         addClassName("list-view");
         setSizeFull();
@@ -103,9 +88,9 @@ public class AllData extends VerticalLayout {
     }
 
     private void updateLists() {
-        walletGrid.setItems(walletService.getWallets());
-        walletItemGrid.setItems(walletItemService.getWalletItems());
-        exchangePortalGrid.setItems(exchangePortalService.getExchangePortals());
-        itemToBuyGrid.setItems(itemToBuyService.getItemToBuys());
+        walletGrid.setItems();
+        walletItemGrid.setItems();
+        exchangePortalGrid.setItems();
+        itemToBuyGrid.setItems();
     }
 }

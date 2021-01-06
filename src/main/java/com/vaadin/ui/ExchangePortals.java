@@ -26,14 +26,10 @@ import java.util.List;
 public class ExchangePortals extends VerticalLayout {
 
     private ExchangePortalForm exchangePortalForm;
-    private ExchangePortalService exchangePortalService;
-    @Autowired
-    private ServiceFactory serviceFactory;
 
     final Grid<ExchangePortal> exchangePortalGrid = new Grid<>(ExchangePortal.class);
 
-    public ExchangePortals(ExchangePortalService exchangePortalService) {
-        this.exchangePortalService = exchangePortalService;
+    public ExchangePortals() {
 
         addClassName("list-view");
         setSizeFull();

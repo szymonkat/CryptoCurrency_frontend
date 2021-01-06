@@ -15,16 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Route(value = "analyzer", layout = MainLayout.class)
 public class Analyzer extends VerticalLayout {
 
-    @Autowired
-    private AnalyzerService analyzerService;
-    @Autowired
-    private ExchangePortalService exchangePortalService;
 
-    public Analyzer(ExchangePortalService exchangePortalService,
-                    AnalyzerService analyzerService) {
-
-        this.analyzerService = analyzerService;
-        this.exchangePortalService = exchangePortalService;
+    public Analyzer() {
 
         addClassName("dashboard-view");
         setDefaultHorizontalComponentAlignment(Alignment.CENTER);

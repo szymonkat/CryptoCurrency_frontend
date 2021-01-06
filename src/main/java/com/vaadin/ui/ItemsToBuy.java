@@ -26,18 +26,11 @@ public class ItemsToBuy extends VerticalLayout {
     private ItemToBuySave itemToBuySave;
     private ItemToBuyDelete itemToBuyDelete;
     private ItemToBuyFinalize itemToBuyFinalize;
-    @Autowired
-    private ExchangePortalService exchangePortalService;
-    @Autowired
-    private ItemToBuyService itemToBuyService;
-    @Autowired
-    private WalletService walletService;
+
 
     final Grid<ItemToBuy> itemToBuyGrid = new Grid<>(ItemToBuy.class);
 
-    public ItemsToBuy(ItemToBuyService itemToBuyService, ExchangePortalService exchangePortalService,
-                      WalletService walletService)  {
-        this.itemToBuyService = itemToBuyService;
+    public ItemsToBuy()  {
 
         addClassName("list-view");
         setSizeFull();
