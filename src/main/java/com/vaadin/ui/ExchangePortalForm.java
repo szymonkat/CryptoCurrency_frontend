@@ -1,3 +1,4 @@
+/*
 package com.vaadin.ui;
 
 import com.vaadin.domain.*;
@@ -124,3 +125,4 @@ public class ExchangePortalForm extends FormLayout {
         return getEventBus().addListener(eventType, listener);
     }
 }
+*/

@@ -1,3 +1,4 @@
+/*
 package com.vaadin.ui;
 
 import com.vaadin.domain.Currency;
@@ -112,4 +113,4 @@ public class WalletItems extends VerticalLayout {
     private void updateList() {
         walletItemGrid.setItems(walletItemService.getWalletItems());
     }
-}
+}*/

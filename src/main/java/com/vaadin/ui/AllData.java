@@ -1,3 +1,4 @@
+/*
 package com.vaadin.ui;
 
 import com.vaadin.domain.ExchangePortal;
@@ -93,4 +94,4 @@ public class AllData extends VerticalLayout {
         exchangePortalGrid.setItems();
         itemToBuyGrid.setItems();
     }
-}
+}*/

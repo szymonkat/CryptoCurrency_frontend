@@ -1,3 +1,4 @@
+/*
 package com.vaadin.ui;
 
 import com.vaadin.client.ApiService;
@@ -124,4 +125,4 @@ public class ExchangePortals extends VerticalLayout {
     private void updateList() {
         exchangePortalGrid.setItems(exchangePortalService.getExchangePortals());
     }
-}
+}*/

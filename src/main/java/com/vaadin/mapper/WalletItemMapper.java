@@ -1,8 +1,9 @@
+/*
 package com.vaadin.mapper;
 
+import com.vaadin.client.WalletClient;
 import com.vaadin.domain.WalletItem;
 import com.vaadin.dto.WalletItemDto;
-import com.vaadin.service.interfaces.WalletService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -13,18 +14,22 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class WalletItemMapper {
 
-    private final WalletService walletService;
+    private final WalletClient walletClient;
+    private final WalletMapper walletMapper;
 
     public WalletItem mapToWalletItem(WalletItemDto walletItemDto) {
-        if (walletItemDto.getId() == null) {
-            return new WalletItem(walletService.findWalletById(walletItemDto.getWalletId()),
+       */
+/* if (walletItemDto.getId() == null) {
+            return new WalletItem(walletMapper.mapToWallet(walletClient.getWalletById(walletItemDto.getWalletId())),
                     walletItemDto.getCurrency(), walletItemDto.getQuantity());
         } else {
             return new WalletItem(walletItemDto.getId(),
-                    walletService.findWalletById(walletItemDto.getWalletId()),
+                    walletItemDto.getWalletId(),
                     walletItemDto.getCurrency(),
                     walletItemDto.getQuantity());
-        }
+        }*//*
+
+        return new WalletItem();
     }
 
     public WalletItemDto mapToWalletItemDto(WalletItem walletItem) {
@@ -46,3 +51,4 @@ public class WalletItemMapper {
                 .collect(Collectors.toList());
     }
 }
+*/

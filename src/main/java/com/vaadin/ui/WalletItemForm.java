@@ -1,3 +1,4 @@
+/*
 package com.vaadin.ui;
 
 import com.vaadin.domain.Currency;
@@ -126,3 +127,4 @@ public class WalletItemForm extends FormLayout {
         return getEventBus().addListener(eventType, listener);
     }
 }
+*/

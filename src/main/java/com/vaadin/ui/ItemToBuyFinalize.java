@@ -1,3 +1,4 @@
+/*
 package com.vaadin.ui;
 
 import com.vaadin.domain.ItemFinalize;
@@ -124,3 +125,4 @@ public class ItemToBuyFinalize extends FormLayout {
         return getEventBus().addListener(eventType, listener);
     }
 }
+*/

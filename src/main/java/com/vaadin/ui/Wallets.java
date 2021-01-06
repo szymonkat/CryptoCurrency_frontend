@@ -1,6 +1,8 @@
 package com.vaadin.ui;
 
+import com.vaadin.client.WalletClient;
 import com.vaadin.domain.Wallet;
+import com.vaadin.dto.WalletDto;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.grid.Grid;
@@ -8,10 +10,9 @@ import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.service.implementations.WalletServiceImpl;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.service.interfaces.WalletService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @CssImport("./styles/styles.css")
 @Route(value = "wallets", layout = MainLayout.class)
@@ -19,6 +20,9 @@ import com.vaadin.service.interfaces.WalletService;
 public class Wallets extends VerticalLayout {
 
     private WalletForm form;
+
+    @Autowired
+    private WalletClient walletClient;
 
     final Grid<Wallet> walletGrid = new Grid<>(Wallet.class);
 
@@ -49,13 +53,15 @@ public class Wallets extends VerticalLayout {
     }
 
     private void deleteWallet(WalletForm.DeleteEvent evt) {
-        walletService.deleteWallet(evt.getWallet().getId());
+        //walletService.deleteWallet(evt.getWallet().getId());
         updateList();
         closeEditor();
     }
 
     private void saveWallet(WalletForm.SaveEvent evt) {
-        walletService.createWallet(evt.getWallet());
+//        walletService.createWallet(evt.getWallet());
+        WalletDto walletDto = new WalletDto("tescik");
+        walletClient.createWallet(walletDto);
         updateList();
         closeEditor();
     }
@@ -70,14 +76,14 @@ public class Wallets extends VerticalLayout {
 
     private void addWallet() {
         walletGrid.asSingleSelect().clear();
-        editWallet(new Wallet());
+        editWallet(new WalletDto());
     }
 
-    private void editWallet(Wallet wallet) {
-        if (wallet == null) {
+    private void editWallet(WalletDto walletDto) {
+        if (walletDto == null) {
             closeEditor();
         } else {
-            form.setWallet(wallet);
+            form.setWallet(walletDto);
             form.setVisible(true);
             addClassName("editing");
         }
@@ -97,11 +103,11 @@ public class Wallets extends VerticalLayout {
         walletGrid.getColumns().forEach(col -> col.setAutoWidth(true));
         walletGrid.getColumns().get(0).setFlexGrow(2);
         walletGrid.getColumns().get(1).setFlexGrow(12);
-        walletGrid.asSingleSelect().addValueChangeListener(evt -> editWallet(evt.getValue()));
+        //walletGrid.asSingleSelect().addValueChangeListener(evt -> editWallet(evt.getValue()));
     }
 
 
     private void updateList() {
-        walletGrid.setItems(walletService.getWallets());
+       // walletGrid.setItems(walletClient.getWallets());
     }
 }

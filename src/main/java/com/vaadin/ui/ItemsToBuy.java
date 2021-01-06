@@ -1,3 +1,4 @@
+/*
 package com.vaadin.ui;
 
 import com.vaadin.controller.ItemToBuyController;
@@ -190,4 +191,4 @@ public class ItemsToBuy extends VerticalLayout {
     private void updateList() {
         itemToBuyGrid.setItems(itemToBuyService.getItemToBuys());
     }
-}
+}*/

@@ -1,3 +1,4 @@
+/*
 package com.vaadin.mapper;
 
 import com.vaadin.domain.ItemToBuy;
@@ -46,3 +47,4 @@ public class ItemToBuyMapper {
     }
 
 }
+*/

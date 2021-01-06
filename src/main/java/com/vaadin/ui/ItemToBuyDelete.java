@@ -1,3 +1,4 @@
+/*
 package com.vaadin.ui;
 
 import com.vaadin.domain.LongVal;
@@ -117,3 +118,4 @@ public class ItemToBuyDelete extends FormLayout {
         return getEventBus().addListener(eventType, listener);
     }
 }
+*/

@@ -1,3 +1,4 @@
+/*
 package com.vaadin.mapper;
 
 import com.vaadin.domain.Wallet;
@@ -40,3 +41,4 @@ public class WalletMapper {
     }
 }
 
+*/

@@ -1,3 +1,4 @@
+/*
 package com.vaadin.mapper;
 
 import com.vaadin.domain.ExchangePortal;
@@ -55,3 +56,4 @@ public class ExchangePortalMapper {
     }
 
 }
+*/

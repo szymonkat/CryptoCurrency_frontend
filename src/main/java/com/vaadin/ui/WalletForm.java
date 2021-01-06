@@ -1,6 +1,7 @@
 package com.vaadin.ui;
 
 import com.vaadin.domain.Wallet;
+import com.vaadin.dto.WalletDto;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
@@ -25,8 +26,8 @@ public class WalletForm extends FormLayout {
     Button delete = new Button("Delete");
     Button close = new Button("Cancel");
 
-    Binder<Wallet> binder = new BeanValidationBinder<>(Wallet.class);
-    private Wallet wallet;
+    Binder<WalletDto> binder = new BeanValidationBinder<>(WalletDto.class);
+    private WalletDto walletDto;
 
     public WalletForm() {
         addClassName("wallet-form");
@@ -38,9 +39,9 @@ public class WalletForm extends FormLayout {
         );
     }
 
-    public void setWallet(Wallet wallet) {
-        this.wallet = wallet;
-        binder.readBean(wallet);
+    public void setWallet(WalletDto walletDto) {
+        this.walletDto = walletDto;
+        binder.readBean(walletDto);
     }
 
     private Component createButtonsLayout() {
@@ -52,7 +53,7 @@ public class WalletForm extends FormLayout {
         close.addClickShortcut(Key.ESCAPE);
 
         save.addClickListener(click -> validateAndSave());
-        delete.addClickListener(click -> fireEvent(new DeleteEvent(this, wallet)));
+        delete.addClickListener(click -> fireEvent(new DeleteEvent(this, walletDto)));
         close.addClickListener(click -> fireEvent(new CloseEvent(this)));
 
         binder.addStatusChangeListener(evt -> save.setEnabled(binder.isValid()));
@@ -63,8 +64,8 @@ public class WalletForm extends FormLayout {
     private void validateAndSave() {
 
         try {
-            binder.writeBean(wallet);
-            fireEvent(new SaveEvent(this, wallet));
+            binder.writeBean(walletDto);
+            fireEvent(new SaveEvent(this, walletDto));
         } catch (ValidationException e) {
             e.printStackTrace();
         }
@@ -72,27 +73,27 @@ public class WalletForm extends FormLayout {
 
     // Events
     public static abstract class WalletFormEvent extends ComponentEvent<WalletForm> {
-        private Wallet wallet;
+        private WalletDto walletDto;
 
-        protected WalletFormEvent(WalletForm source, Wallet wallet) {
+        protected WalletFormEvent(WalletForm source, WalletDto walletDto) {
             super(source, false);
-            this.wallet = wallet;
+            this.walletDto = walletDto;
         }
 
-        public Wallet getWallet() {
-            return wallet;
+        public WalletDto getWallet() {
+            return walletDto;
         }
     }
 
     public static class SaveEvent extends WalletFormEvent {
-        SaveEvent(WalletForm source, Wallet wallet) {
-            super(source, wallet);
+        SaveEvent(WalletForm source, WalletDto walletDto) {
+            super(source, walletDto);
         }
     }
 
     public static class DeleteEvent extends WalletFormEvent {
-        DeleteEvent(WalletForm source, Wallet wallet) {
-            super(source, wallet);
+        DeleteEvent(WalletForm source, WalletDto walletDto) {
+            super(source, walletDto);
         }
 
     }

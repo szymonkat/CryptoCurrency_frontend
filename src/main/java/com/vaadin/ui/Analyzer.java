@@ -1,3 +1,4 @@
+/*
 package com.vaadin.ui;
 
 import com.vaadin.domain.Currency;
@@ -148,4 +149,4 @@ public class Analyzer extends VerticalLayout {
     private boolean checkIfCurrencyExchangePortalExists(Currency currency) {
         return exchangePortalService.getExchangePortalsWithCurrency(currency).isEmpty();
     }
-}
+}*/
