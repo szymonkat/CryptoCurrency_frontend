@@ -1,0 +1,47 @@
+plugins {
+	id 'org.springframework.boot' version '2.2.12.BUILD-SNAPSHOT'
+	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+	id 'java'
+}
+
+group = 'com.vaadin'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+repositories {
+	mavenCentral()
+	maven { url 'https://repo.spring.io/milestone' }
+	maven { url 'https://repo.spring.io/snapshot' }
+}
+
+ext {
+	set('vaadinVersion', "14.4.2")
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'com.vaadin:vaadin-spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'junit:junit:4.12'
+	runtimeOnly 'mysql:mysql-connector-java'
+	runtimeOnly 'com.h2database:h2'
+	compile('io.springfox:springfox-swagger2:2.7.0')
+	compile('io.springfox:springfox-swagger-ui:2.7.0')
+	compile('com.google.code.gson:gson:2.8.2')
+	compileOnly 'org.projectlombok:lombok'
+	compileOnly 'org.springframework.boot:spring-boot-devtools'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "com.vaadin:vaadin-bom:${vaadinVersion}"
+	}
+}
+
+test {
+	useJUnitPlatform()
+}
