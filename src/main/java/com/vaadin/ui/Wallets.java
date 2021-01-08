@@ -67,7 +67,7 @@ public class Wallets extends VerticalLayout {
     }
 
     private void saveWallet(WalletForm.SaveEvent evt) {
-        walletClient.createWallet(walletMapper.mapToWalletDto(evt.getWallet()));
+        walletClient.createWallet(evt.getWallet());
         updateList();
         closeEditor();
     }
@@ -89,7 +89,7 @@ public class Wallets extends VerticalLayout {
         if (walletDto == null) {
             closeEditor();
         } else {
-            form.setWallet(walletMapper.mapToWallet(walletDto));
+            form.setWallet(walletDto);
             form.setVisible(true);
             addClassName("editing");
         }
