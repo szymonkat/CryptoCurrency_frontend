@@ -2,7 +2,6 @@ package com.vaadin.ui;
 
 import com.vaadin.client.WalletClient;
 import com.vaadin.domain.Wallet;
-import com.vaadin.dto.WalletDto;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.grid.Grid;
@@ -15,7 +14,6 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.mapper.WalletMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.concurrent.TimeUnit;
 
 @CssImport("./styles/styles.css")
 @Route(value = "wallets", layout = MainLayout.class)
@@ -61,13 +59,13 @@ public class Wallets extends VerticalLayout {
     }
 
     private void deleteWallet(WalletForm.DeleteEvent evt) {
-        walletClient.deleteWallet(50L);
+        walletClient.deleteWallet(evt.getWallet().getId());
         updateList();
         closeEditor();
     }
 
     private void saveWallet(WalletForm.SaveEvent evt) {
-        walletClient.createWallet(evt.getWallet());
+        walletClient.createWallet(walletMapper.mapToWalletDto(evt.getWallet()));
         updateList();
         closeEditor();
     }
@@ -82,14 +80,14 @@ public class Wallets extends VerticalLayout {
 
     private void addWallet() {
         walletGrid.asSingleSelect().clear();
-        editWallet(new WalletDto());
+        editWallet(new Wallet());
     }
 
-    private void editWallet(WalletDto walletDto) {
-        if (walletDto == null) {
+    private void editWallet(Wallet wallet) {
+        if (wallet == null) {
             closeEditor();
         } else {
-            form.setWallet(walletDto);
+            form.setWallet(wallet);
             form.setVisible(true);
             addClassName("editing");
         }
@@ -109,7 +107,7 @@ public class Wallets extends VerticalLayout {
         walletGrid.getColumns().forEach(col -> col.setAutoWidth(true));
         walletGrid.getColumns().get(0).setFlexGrow(2);
         walletGrid.getColumns().get(1).setFlexGrow(12);
-        walletGrid.asSingleSelect().addValueChangeListener(evt -> editWallet(walletMapper.mapToWalletDto(evt.getValue())));
+        walletGrid.asSingleSelect().addValueChangeListener(evt -> editWallet(evt.getValue()));
     }
 
     private void updateList() {

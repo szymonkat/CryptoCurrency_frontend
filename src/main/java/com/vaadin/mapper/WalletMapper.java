@@ -4,7 +4,6 @@ import com.vaadin.client.WalletClient;
 import com.vaadin.domain.Wallet;
 import com.vaadin.dto.WalletDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -21,12 +20,12 @@ public class WalletMapper {
         if (walletDto.getId() == null) {
             return new Wallet(walletDto.getName(), new ArrayList<>());
         } else  {
-            return new Wallet(walletDto.getId(), walletDto.getName(), walletClient.getItemWallets(walletDto.getId()));
+            return new Wallet(walletDto.getId(), walletDto.getName(), new ArrayList<>());
         }
     }
 
     public WalletDto mapToWalletDto(Wallet wallet) {
-        return new WalletDto(wallet.getId(), wallet.getName(), walletClient.getWalletById(wallet.getId()).getWalletItemList());
+        return new WalletDto(wallet.getId(), wallet.getName(), new ArrayList<>());
     }
 
     public List<Wallet> mapToWalletList(List<WalletDto> walletDtoList) {
