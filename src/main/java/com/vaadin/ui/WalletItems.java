@@ -1,9 +1,12 @@
 /*
 package com.vaadin.ui;
 
+import com.vaadin.client.WalletClient;
+import com.vaadin.client.WalletItemClient;
 import com.vaadin.domain.Currency;
 import com.vaadin.domain.Wallet;
 import com.vaadin.domain.WalletItem;
+import com.vaadin.dto.WalletDto;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
@@ -13,8 +16,10 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.mapper.WalletItemMapper;
 import com.vaadin.service.interfaces.WalletItemService;
 import com.vaadin.service.interfaces.WalletService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,10 +30,18 @@ import java.util.List;
 public class WalletItems extends VerticalLayout {
 
     private WalletItemForm walletItemForm;
+    @Autowired
+    private WalletClient walletClient;
+
+    @Autowired
+    private WalletItemClient walletItemClient;
+
+    @Autowired
+    private WalletItemMapper walletItemMapper;
 
     final Grid<WalletItem> walletItemGrid = new Grid<>(WalletItem.class);
 
-    public WalletItems() {
+    public WalletItems(WalletClient walletClient, WalletItemClient walletItemClient, WalletItemMapper walletItemMapper) {
 
         addClassName("list-view");
         setSizeFull();
@@ -40,7 +53,7 @@ public class WalletItems extends VerticalLayout {
         updateList();
 
         // Create arguments for Form entries
-        List<Wallet> walletList = walletService.getWallets();
+        List<WalletDto> walletList = walletClient.getWallets();
         List<Currency> enumValues = Arrays.asList(Currency.values());
 
         walletItemForm = new WalletItemForm(walletList, enumValues);
@@ -113,4 +126,5 @@ public class WalletItems extends VerticalLayout {
     private void updateList() {
         walletItemGrid.setItems(walletItemService.getWalletItems());
     }
-}*/
+}
+*/

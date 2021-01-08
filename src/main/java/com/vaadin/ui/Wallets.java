@@ -15,7 +15,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.mapper.WalletMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @CssImport("./styles/styles.css")
 @Route(value = "wallets", layout = MainLayout.class)
@@ -61,7 +61,7 @@ public class Wallets extends VerticalLayout {
     }
 
     private void deleteWallet(WalletForm.DeleteEvent evt) {
-        walletClient.deleteWallet(evt.getWallet().getId());
+        walletClient.deleteWallet(50L);
         updateList();
         closeEditor();
     }
@@ -111,7 +111,6 @@ public class Wallets extends VerticalLayout {
         walletGrid.getColumns().get(1).setFlexGrow(12);
         walletGrid.asSingleSelect().addValueChangeListener(evt -> editWallet(walletMapper.mapToWalletDto(evt.getValue())));
     }
-
 
     private void updateList() {
         walletGrid.setItems(walletMapper.mapToWalletList(walletClient.getWallets()));

@@ -4,6 +4,8 @@ package com.vaadin.ui;
 import com.vaadin.domain.Currency;
 import com.vaadin.domain.Wallet;
 import com.vaadin.domain.WalletItem;
+import com.vaadin.dto.WalletDto;
+import com.vaadin.dto.WalletItemDto;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
@@ -27,22 +29,22 @@ public class WalletItemForm extends FormLayout {
 
     ComboBox<Currency> currency = new ComboBox<>("Currency");
     NumberField quantity = new NumberField("Quantity");
-    ComboBox<Wallet> wallet = new ComboBox<>("Wallet owner's name");
+    ComboBox<WalletDto> wallet = new ComboBox<>("Wallet owner's name");
 
     Button save = new Button("Create");
     Button delete = new Button("Delete");
     Button close = new Button("Cancel");
 
-    Binder<WalletItem> binder = new BeanValidationBinder<>(WalletItem.class);
-    private WalletItem walletItem;
+    Binder<WalletItemDto> binder = new BeanValidationBinder<>(WalletItemDto.class);
+    private WalletItemDto walletItemDto;
 
-    public WalletItemForm(List<Wallet> walletsList, List<Currency> currenciesList) {
+    public WalletItemForm(List<WalletDto> walletsList, List<Currency> currenciesList) {
         addClassName("wallet-item-form");
         binder.bindInstanceFields(this);
         currency.setItems(currenciesList);
         currency.setItemLabelGenerator(Currency::name);
         wallet.setItems(walletsList);
-        wallet.setItemLabelGenerator(Wallet::getName);
+        wallet.setItemLabelGenerator(WalletDto::getName);
         quantity.setValue(1d);
         quantity.setHasControls(true);
         quantity.setMin(0);
