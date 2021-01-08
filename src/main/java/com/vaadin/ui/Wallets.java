@@ -54,14 +54,15 @@ public class Wallets extends VerticalLayout {
 
     private void deleteWallet(WalletForm.DeleteEvent evt) {
         //walletService.deleteWallet(evt.getWallet().getId());
+        walletClient.deleteWallet(evt.getWallet().getId());
         updateList();
         closeEditor();
     }
 
     private void saveWallet(WalletForm.SaveEvent evt) {
 //        walletService.createWallet(evt.getWallet());
-        WalletDto walletDto = new WalletDto("tescik");
-        walletClient.createWallet(walletDto);
+ //       WalletDto walletDto = new WalletDto("tescik");
+        walletClient.createWallet(evt.getWallet());
         updateList();
         closeEditor();
     }

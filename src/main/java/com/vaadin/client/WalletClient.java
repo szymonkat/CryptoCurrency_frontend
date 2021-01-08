@@ -40,15 +40,30 @@ public class WalletClient {
     public WalletDto getWalletById(Long walletId) {
         URI url = UriComponentsBuilder.fromHttpUrl(clientConfig.getBackApiAddress() + "/wallet/" + walletId)
                 .build().encode().toUri();
-       return restTemplate.getForObject(url, WalletDto.class);
+        try {
+            WalletDto boardsResponse = restTemplate.getForObject(url, WalletDto.class);
+            return boardsResponse;
+        } catch (RestClientException e) {
+            return new WalletDto();
+        }
     }
 
     public WalletDto createWallet(WalletDto walletDto) {
         URI url = UriComponentsBuilder.fromHttpUrl(clientConfig.getBackApiAddress() + "wallet/")
-                .queryParam("name", walletDto.getName())
-                .queryParam("walletItemList",walletDto.getWalletItemList())
                 .build().encode().toUri();
-        System.out.println(url);
-        return restTemplate.postForObject(url, null, WalletDto.class);
+        return restTemplate.postForObject(url, walletDto, WalletDto.class);
+    }
+
+   /* // Uzycie PUT
+    public WalletDto updateWallet(WalletDto walletDto) {
+        URI url = UriComponentsBuilder.fromHttpUrl(clientConfig.getBackApiAddress() + "wallet/")
+                .build().encode().toUri();
+        return restTemplate.put(url, walletDto);
+    }
+*/
+    public void deleteWallet(Long walletId) {
+        URI url = UriComponentsBuilder.fromHttpUrl(clientConfig.getBackApiAddress() + "wallet/" + walletId)
+                .build().encode().toUri();
+        restTemplate.delete(url);
     }
 }
