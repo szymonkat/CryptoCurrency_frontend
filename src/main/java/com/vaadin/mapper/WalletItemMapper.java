@@ -1,4 +1,3 @@
-/*
 package com.vaadin.mapper;
 
 import com.vaadin.client.WalletClient;
@@ -18,18 +17,17 @@ public class WalletItemMapper {
     private final WalletMapper walletMapper;
 
     public WalletItem mapToWalletItem(WalletItemDto walletItemDto) {
-       */
-/* if (walletItemDto.getId() == null) {
-            return new WalletItem(walletMapper.mapToWallet(walletClient.getWalletById(walletItemDto.getWalletId())),
-                    walletItemDto.getCurrency(), walletItemDto.getQuantity());
-        } else {
-            return new WalletItem(walletItemDto.getId(),
-                    walletItemDto.getWalletId(),
+ if (walletItemDto.getId() == null) {
+            return new WalletItem(
+                   walletMapper.mapToWallet(walletClient.getWalletById(walletItemDto.getWalletId())),
                     walletItemDto.getCurrency(),
                     walletItemDto.getQuantity());
-        }*//*
-
-        return new WalletItem();
+        } else {
+            return new WalletItem(walletItemDto.getId(),
+                    walletMapper.mapToWallet(walletClient.getWalletById(walletItemDto.getWalletId())),
+                    walletItemDto.getCurrency(),
+                    walletItemDto.getQuantity());
+        }
     }
 
     public WalletItemDto mapToWalletItemDto(WalletItem walletItem) {
@@ -51,4 +49,3 @@ public class WalletItemMapper {
                 .collect(Collectors.toList());
     }
 }
-*/

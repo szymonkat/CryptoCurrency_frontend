@@ -1,6 +1,8 @@
 package com.vaadin.client;
 
+import com.vaadin.domain.WalletItem;
 import com.vaadin.dto.WalletDto;
+import com.vaadin.dto.WalletItemDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
@@ -16,6 +18,7 @@ import static java.util.Optional.ofNullable;
 
 @Component
 public class WalletClient {
+
     @Autowired
     private ClientConfig clientConfig;
 
@@ -54,16 +57,37 @@ public class WalletClient {
         return restTemplate.postForObject(url, walletDto, WalletDto.class);
     }
 
-   /* // Uzycie PUT
-    public WalletDto updateWallet(WalletDto walletDto) {
+    public void updateWallet(WalletDto walletDto) {
         URI url = UriComponentsBuilder.fromHttpUrl(clientConfig.getBackApiAddress() + "wallet/")
                 .build().encode().toUri();
-        return restTemplate.put(url, walletDto);
+        restTemplate.put(url, walletDto);
     }
-*/
+
     public void deleteWallet(Long walletId) {
         URI url = UriComponentsBuilder.fromHttpUrl(clientConfig.getBackApiAddress() + "wallet/" + walletId)
                 .build().encode().toUri();
         restTemplate.delete(url);
+    }
+
+    public List<WalletItemDto> getItemWalletsDto(Long walletId) {
+        URI url = UriComponentsBuilder.fromHttpUrl(clientConfig.getBackApiAddress() + "wallet/items/" + walletId)
+                .build().encode().toUri();
+        try {
+            WalletItemDto[] boardsResponse = restTemplate.getForObject(url, WalletItemDto[].class);
+            return Arrays.asList(ofNullable(boardsResponse).orElse(new WalletItemDto[0]));
+        } catch (RestClientException e) {
+            return new ArrayList<>();
+        }
+    }
+
+    public List<WalletItem> getItemWallets(Long walletId) {
+        URI url = UriComponentsBuilder.fromHttpUrl(clientConfig.getBackApiAddress() + "wallet/item/" + walletId)
+                .build().encode().toUri();
+        try {
+            WalletItem[] boardsResponse = restTemplate.getForObject(url, WalletItem[].class);
+            return Arrays.asList(ofNullable(boardsResponse).orElse(new WalletItem[0]));
+        } catch (RestClientException e) {
+            return new ArrayList<>();
+        }
     }
 }

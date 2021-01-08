@@ -12,7 +12,10 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.mapper.WalletMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 @CssImport("./styles/styles.css")
 @Route(value = "wallets", layout = MainLayout.class)
@@ -24,9 +27,14 @@ public class Wallets extends VerticalLayout {
     @Autowired
     private WalletClient walletClient;
 
+    @Autowired
+    private WalletMapper walletMapper;
+
     final Grid<Wallet> walletGrid = new Grid<>(Wallet.class);
 
-    public Wallets() {
+    public Wallets(WalletClient walletClient,WalletMapper walletMapper) {
+        this.walletClient = walletClient;
+        this.walletMapper = walletMapper;
 
         addClassName("list-view");
         setSizeFull();
@@ -53,16 +61,13 @@ public class Wallets extends VerticalLayout {
     }
 
     private void deleteWallet(WalletForm.DeleteEvent evt) {
-        //walletService.deleteWallet(evt.getWallet().getId());
         walletClient.deleteWallet(evt.getWallet().getId());
         updateList();
         closeEditor();
     }
 
     private void saveWallet(WalletForm.SaveEvent evt) {
-//        walletService.createWallet(evt.getWallet());
- //       WalletDto walletDto = new WalletDto("tescik");
-        walletClient.createWallet(evt.getWallet());
+        walletClient.createWallet(walletMapper.mapToWalletDto(evt.getWallet()));
         updateList();
         closeEditor();
     }
@@ -84,7 +89,7 @@ public class Wallets extends VerticalLayout {
         if (walletDto == null) {
             closeEditor();
         } else {
-            form.setWallet(walletDto);
+            form.setWallet(walletMapper.mapToWallet(walletDto));
             form.setVisible(true);
             addClassName("editing");
         }
@@ -104,11 +109,11 @@ public class Wallets extends VerticalLayout {
         walletGrid.getColumns().forEach(col -> col.setAutoWidth(true));
         walletGrid.getColumns().get(0).setFlexGrow(2);
         walletGrid.getColumns().get(1).setFlexGrow(12);
-        //walletGrid.asSingleSelect().addValueChangeListener(evt -> editWallet(evt.getValue()));
+        walletGrid.asSingleSelect().addValueChangeListener(evt -> editWallet(walletMapper.mapToWalletDto(evt.getValue())));
     }
 
 
     private void updateList() {
-       // walletGrid.setItems(walletClient.getWallets());
+        walletGrid.setItems(walletMapper.mapToWalletList(walletClient.getWallets()));
     }
 }
