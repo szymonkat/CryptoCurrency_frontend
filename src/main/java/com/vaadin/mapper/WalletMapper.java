@@ -1,6 +1,7 @@
 package com.vaadin.mapper;
 
 import com.vaadin.client.WalletClient;
+import com.vaadin.client.WalletItemClient;
 import com.vaadin.domain.Wallet;
 import com.vaadin.dto.WalletDto;
 import lombok.RequiredArgsConstructor;
@@ -14,18 +15,18 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class WalletMapper {
 
-    private final WalletClient walletClient;
+    private final WalletItemMapper walletItemMapper;
 
     public Wallet mapToWallet(WalletDto walletDto) {
         if (walletDto.getId() == null) {
             return new Wallet(walletDto.getName(), new ArrayList<>());
         } else  {
-            return new Wallet(walletDto.getId(), walletDto.getName(), new ArrayList<>());
+            return new Wallet(walletDto.getId(), walletDto.getName(), walletItemMapper.mapToWalletItemList(walletDto.getWalletItemList()));
         }
     }
 
     public WalletDto mapToWalletDto(Wallet wallet) {
-        return new WalletDto(wallet.getId(), wallet.getName(), new ArrayList<>());
+        return new WalletDto(wallet.getId(), wallet.getName(), walletItemMapper.mapToWalletItemDtoList(wallet.getWalletItemList()));
     }
 
     public List<Wallet> mapToWalletList(List<WalletDto> walletDtoList) {

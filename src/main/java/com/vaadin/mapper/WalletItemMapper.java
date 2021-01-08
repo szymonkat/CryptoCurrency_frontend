@@ -1,9 +1,11 @@
 package com.vaadin.mapper;
 
 import com.vaadin.client.WalletClient;
+import com.vaadin.domain.Wallet;
 import com.vaadin.domain.WalletItem;
 import com.vaadin.dto.WalletItemDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -13,13 +15,15 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class WalletItemMapper {
 
-    private final WalletClient walletClient;
-    private final WalletMapper walletMapper;
+    @Autowired
+    private WalletClient walletClient;
+    @Autowired
+    private WalletMapper walletMapper;
 
     public WalletItem mapToWalletItem(WalletItemDto walletItemDto) {
- if (walletItemDto.getId() == null) {
+        if (walletItemDto.getId() == null) {
             return new WalletItem(
-                   walletMapper.mapToWallet(walletClient.getWalletById(walletItemDto.getWalletId())),
+                    walletMapper.mapToWallet(walletClient.getWalletById(walletItemDto.getWalletId())),
                     walletItemDto.getCurrency(),
                     walletItemDto.getQuantity());
         } else {

@@ -3,7 +3,6 @@ package com.vaadin.mapper;
 
 import com.vaadin.domain.ItemToBuy;
 import com.vaadin.dto.ItemToBuyDto;
-import com.vaadin.service.interfaces.ExchangePortalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +13,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ItemToBuyMapper {
 
-    private final ExchangePortalService exchangePortalService;
+
 
     public ItemToBuy mapToItemToBuy(ItemToBuyDto itemToBuyDto) {
         if (itemToBuyDto.getId() == null) {
