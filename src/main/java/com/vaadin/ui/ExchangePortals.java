@@ -1,8 +1,11 @@
 package com.vaadin.ui;
 
 import com.vaadin.client.ExchangePortalClient;
+import com.vaadin.client.ItemToBuyClient;
 import com.vaadin.domain.*;
 import com.vaadin.dto.ExchangePortalDto;
+import com.vaadin.dto.ItemToBuyDto;
+import com.vaadin.dto.WalletDto;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
@@ -28,10 +31,14 @@ public class ExchangePortals extends VerticalLayout {
     @Autowired
     private ExchangePortalClient exchangePortalClient;
 
+    @Autowired
+    private ItemToBuyClient itemToBuyClient;
+
     final Grid<ExchangePortalDto> exchangePortalGrid = new Grid<>(ExchangePortalDto.class);
 
-    public ExchangePortals(ExchangePortalClient exchangePortalClient) {
+    public ExchangePortals(ExchangePortalClient exchangePortalClient, ItemToBuyClient itemToBuyClient) {
         this.exchangePortalClient = exchangePortalClient;
+        this.itemToBuyClient = itemToBuyClient;
 
         addClassName("list-view");
         setSizeFull();
@@ -111,7 +118,11 @@ public class ExchangePortals extends VerticalLayout {
     private void configureExchangePortalGrid() {
         exchangePortalGrid.addClassName("exchange-portal-grid");
         exchangePortalGrid.setSizeFull();
-        exchangePortalGrid.setColumns("id", "provider", "currencyToBuy", "currencyToPay", "ratio", "time", "itemToBuyDtoId");
+        exchangePortalGrid.setColumns("id", "provider", "currencyToBuy", "currencyToPay", "ratio", "time");
+        exchangePortalGrid.addColumn(exchangePortalDto -> {
+            ItemToBuyDto itemToBuyDto = itemToBuyClient.getItemToBuyById(exchangePortalDto.getItemToBuyDtoId());
+            return itemToBuyDto == null ? "---" : itemToBuyDto.getId();
+        }).setHeader("Item To Buy Id");
         exchangePortalGrid.getDataProvider().refreshAll();
         exchangePortalGrid.getColumns().get(0).setFlexGrow(2);
         exchangePortalGrid.getColumns().get(1).setFlexGrow(4);

@@ -22,10 +22,9 @@ public class ItemToBuyDto {
 
     @Override
     public String toString() {
-        return "ItemToBuyDto{" +
+        return "ItemToBuyDto: " +
                 "id=" + id +
                 ", exchangePortalId=" + exchangePortalId +
-                ", quantityToBuy=" + quantityToBuy +
-                '}';
+                ", quantityToBuy=" + quantityToBuy;
     }
 }

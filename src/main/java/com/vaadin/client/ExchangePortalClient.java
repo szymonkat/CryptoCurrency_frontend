@@ -2,6 +2,7 @@ package com.vaadin.client;
 
 import com.vaadin.domain.Currency;
 import com.vaadin.dto.ExchangePortalDto;
+import com.vaadin.dto.WalletDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
@@ -44,6 +45,17 @@ public class ExchangePortalClient {
             return Arrays.asList(ofNullable(boardsResponse).orElse(new ExchangePortalDto[0]));
         } catch (RestClientException e) {
             return new ArrayList<>();
+        }
+    }
+
+    public ExchangePortalDto getExchangePortalById(Long exchangePortalId) {
+        URI url = UriComponentsBuilder.fromHttpUrl(clientConfig.getBackApiAddress() + "/exchange/id/" + exchangePortalId)
+                .build().encode().toUri();
+        try {
+            ExchangePortalDto boardsResponse = restTemplate.getForObject(url, ExchangePortalDto.class);
+            return boardsResponse;
+        } catch (RestClientException e) {
+            return new ExchangePortalDto();
         }
     }
 

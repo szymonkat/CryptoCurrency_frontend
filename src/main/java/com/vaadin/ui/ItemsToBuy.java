@@ -204,10 +204,15 @@ public class ItemsToBuy extends VerticalLayout {
     private void configureItemToBuyGrid() {
         itemToBuyGrid.addClassName("item-to-buy-grid");
         itemToBuyGrid.setSizeFull();
-        itemToBuyGrid.setColumns("id", "exchangePortalId", "quantityToBuy");
+        itemToBuyGrid.setColumns("id", "quantityToBuy");
+        itemToBuyGrid.addColumn(itemToBuyDto -> {
+            ExchangePortalDto exchangePortalDto =
+                    exchangePortalClient.getExchangePortalById(itemToBuyDto.getExchangePortalId());
+            return exchangePortalDto == null ? "---" : exchangePortalDto.toString();
+        }).setHeader("Exchange Portal");
         itemToBuyGrid.getColumns().get(0).setFlexGrow(2);
-        itemToBuyGrid.getColumns().get(1).setFlexGrow(12);
-        itemToBuyGrid.getColumns().get(2).setFlexGrow(2);
+        itemToBuyGrid.getColumns().get(1).setFlexGrow(2);
+        itemToBuyGrid.getColumns().get(2).setFlexGrow(12);
         itemToBuyGrid.getDataProvider().refreshAll();
     }
 

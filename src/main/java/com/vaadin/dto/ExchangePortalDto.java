@@ -41,12 +41,11 @@ public class ExchangePortalDto {
 
     @Override
     public String toString() {
-        return "ExchangePortalDto{" +
+        return "ExchangePortal: " +
                 "id=" + id +
                 ", provider='" + provider + '\'' +
                 ", currencyToBuy=" + currencyToBuy +
                 ", currencyToPay=" + currencyToPay +
-                ", ratio=" + ratio +
-                '}';
+                ", ratio=" + ratio;
     }
 }
