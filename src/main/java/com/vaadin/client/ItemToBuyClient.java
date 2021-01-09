@@ -54,17 +54,23 @@ public class ItemToBuyClient {
         return restTemplate.postForObject(url, itemToBuyDto, ItemToBuyDto.class);
     }
 
-    /* // Uzycie PUT
-     public ItemToBuyDto updateItemToBuy(ItemToBuyDto itemToBuyDto) {
+     public void updateItemToBuy(ItemToBuyDto itemToBuyDto) {
          URI url = UriComponentsBuilder.fromHttpUrl(clientConfig.getBackApiAddress() + "items/")
                  .build().encode().toUri();
-         return restTemplate.put(url, itemToBuyDto);
+         restTemplate.put(url, itemToBuyDto);
      }
- */
+
     public void deleteItemToBuy(Long itemToBuyId) {
         URI url = UriComponentsBuilder.fromHttpUrl(clientConfig.getBackApiAddress() + "items/" + itemToBuyId)
                 .build().encode().toUri();
         restTemplate.delete(url);
+    }
+
+    public void finalizeItemToBuy(Long itemToBuyId, Long walletId) {
+        URI url = UriComponentsBuilder.fromHttpUrl(clientConfig.getBackApiAddress() + "items/finalize/" + walletId)
+                .queryParam("itemToBuyId", itemToBuyId)
+                .build().encode().toUri();
+        restTemplate.getForObject(getUrl(), null);
     }
 
 }

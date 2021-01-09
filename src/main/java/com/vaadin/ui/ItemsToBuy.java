@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @CssImport("./styles/styles.css")
 @Route(value = "itemsToBuy", layout = MainLayout.class)
@@ -56,7 +57,10 @@ public class ItemsToBuy extends VerticalLayout {
         updateList();
 
         // Create arguments for Form entries
-        List<ExchangePortalDto> exchangePortalDtoList = exchangePortalClient.getExchangePortals();
+        List<Long> exchangePortalDtoList = exchangePortalClient.getExchangePortals().stream()
+                .map(n -> n.getId())
+                .collect(Collectors.toList());
+
         List<WalletDto> walletDtoList = walletClient.getWallets();
         
         itemToBuySave = new ItemToBuySave(exchangePortalDtoList);
@@ -83,34 +87,39 @@ public class ItemsToBuy extends VerticalLayout {
     }
 
     private void saveItemToBuy(ItemToBuySave.SaveEvent evt) {
-        //itemToBuyService.save(evt.getItemToBuy());
+        itemToBuyClient.createItemToBuy(evt.getItemToBuy());
         updateList();
         closeSaveEditor();
     }
 
     private void deleteItemToBuy(ItemToBuyDelete.DeleteEvent evt) {
-//        long idValue = ((evt.getLongVal().getIdValue()).longValue());
-//
-//        if (itemToBuyService.checkIfExists(idValue)) {
-//            itemToBuyService.deleteItemToBuy(idValue);
-//            updateList();
-//            closeDeleteEditor();
-//        } else {
-//            System.out.println("Item to buy with id:" + idValue + " not found");
-//        }
+        long idValue = ((evt.getLongVal().getIdValue()).longValue());
+
+        try {
+            itemToBuyClient.deleteItemToBuy(idValue);
+        } catch (Exception e) {
+
+        }
+        updateList();
+        closeDeleteEditor();
     }
 
     private void finalizeItemToBuy(ItemToBuyFinalize.FinalizeEvent evt) {
-//        Long itemToBuyId = ((evt.getItemFinalize().getIdValue()).longValue());
-//        Long walletId = ((evt.getItemFinalize().getWallet().getId()).longValue());
-//
-//        if (itemToBuyService.checkIfExists(itemToBuyId) && (walletService.checkIfExistsById(walletId))) {
-//            itemToBuyService.finalizeItemToBuy(itemToBuyId, walletId);
-//            updateList();
-//            closeFinalizeEditor();
-//        } else {
-//            System.out.println("Please check if item to buy Id :" + itemToBuyId + " and wallet id: " + walletId + " exists");
-//        }
+        Long itemToBuyId = ((evt.getItemFinalize().getIdValue()).longValue());
+        Long walletId = ((evt.getItemFinalize().getWalletDto().getId()).longValue());
+
+        try {
+            itemToBuyClient.finalizeItemToBuy(itemToBuyId, walletId);
+        } catch (Exception e) {
+            System.out.println("Please check if item to buy Id :" + itemToBuyId + " and wallet id: " + walletId + " exists");
+            System.out.println(e.toString());
+        }
+        updateList();
+        closeFinalizeEditor();
+
+       /* if (itemToBuyService.checkIfExists(itemToBuyId) && (walletService.checkIfExistsById(walletId))) {
+            itemToBuyService.finalizeItemToBuy(itemToBuyId, walletId);
+        } */
     }
 
     private HorizontalLayout getToolBar() {

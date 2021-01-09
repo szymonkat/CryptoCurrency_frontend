@@ -29,7 +29,7 @@ public class WalletForm extends FormLayout {
     private WalletDto walletDto;
 
     public WalletForm() {
-        addClassName("walletDto-form");
+        addClassName("wallet-form");
         binder.bindInstanceFields(this);
 
         add(

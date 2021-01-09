@@ -55,13 +55,11 @@ public class WalletItemClient {
         return restTemplate.postForObject(url, walletItemDto, WalletItemDto.class);
     }
 
-    /* // Uzycie PUT
-     public WalletItemDto updateWalletItem(WalletItemDto walletItemDto) {
+     public void updateWalletItem(WalletItemDto walletItemDto) {
          URI url = UriComponentsBuilder.fromHttpUrl(clientConfig.getBackApiAddress() + "walletItem/")
                  .build().encode().toUri();
-         return restTemplate.put(url, walletItemDto);
+        restTemplate.put(url, walletItemDto);
      }
- */
     public void deleteWalletItem(Long walletItemId) {
         URI url = UriComponentsBuilder.fromHttpUrl(clientConfig.getBackApiAddress() + "walletItem/" + walletItemId)
                 .build().encode().toUri();

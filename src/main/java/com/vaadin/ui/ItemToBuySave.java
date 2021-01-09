@@ -23,7 +23,7 @@ import java.util.List;
 @Route(value = "itemToBuySave", layout = MainLayout.class)
 public class ItemToBuySave extends FormLayout {
 
-    ComboBox<ExchangePortalDto> exchangePortal = new ComboBox<>("ExchangePortal");
+    ComboBox<Long> exchangePortalId = new ComboBox<>("ExchangePortal");
     NumberField quantityToBuy = new NumberField("Quantity to buy");
 
 
@@ -34,18 +34,18 @@ public class ItemToBuySave extends FormLayout {
     private ItemToBuyDto itemToBuyDto;
 
 
-    public ItemToBuySave(List<ExchangePortalDto> exchangePortalList) {
+    public ItemToBuySave(List<Long> exchangePortalList) {
         addClassName("item-to-buy-save");
         binder.bindInstanceFields(this);
-        exchangePortal.setItems(exchangePortalList);
-        exchangePortal.setItemLabelGenerator(ExchangePortalDto::toString);
+        exchangePortalId.setItems(exchangePortalList);
+        exchangePortalId.setItemLabelGenerator(Long::toUnsignedString);
         quantityToBuy.setValue(1d);
         quantityToBuy.setHasControls(true);
         quantityToBuy.setMin(1);
 
 
         add(
-                exchangePortal,
+                exchangePortalId,
                 quantityToBuy,
                 createButtonsLayout()
         );
