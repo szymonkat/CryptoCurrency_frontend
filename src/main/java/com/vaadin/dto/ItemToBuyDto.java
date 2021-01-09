@@ -17,4 +17,13 @@ public class ItemToBuyDto {
         this.exchangePortalId = exchangePortalId;
         this.quantityToBuy = quantityToBuy;
     }
+
+    @Override
+    public String toString() {
+        return "ItemToBuyDto{" +
+                "id=" + id +
+                ", exchangePortalId=" + exchangePortalId +
+                ", quantityToBuy=" + quantityToBuy +
+                '}';
+    }
 }

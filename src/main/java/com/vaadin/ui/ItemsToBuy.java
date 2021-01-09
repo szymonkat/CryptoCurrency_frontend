@@ -1,7 +1,12 @@
-/*
 package com.vaadin.ui;
 
+import com.vaadin.client.ExchangePortalClient;
+import com.vaadin.client.ItemToBuyClient;
+import com.vaadin.client.WalletClient;
 import com.vaadin.domain.*;
+import com.vaadin.dto.ExchangePortalDto;
+import com.vaadin.dto.ItemToBuyDto;
+import com.vaadin.dto.WalletDto;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
@@ -11,6 +16,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
 import java.util.List;
@@ -24,10 +30,21 @@ public class ItemsToBuy extends VerticalLayout {
     private ItemToBuyDelete itemToBuyDelete;
     private ItemToBuyFinalize itemToBuyFinalize;
 
+    @Autowired
+    private ItemToBuyClient itemToBuyClient;
 
-    final Grid<ItemToBuy> itemToBuyGrid = new Grid<>(ItemToBuy.class);
+    @Autowired
+    private ExchangePortalClient exchangePortalClient;
 
-    public ItemsToBuy()  {
+    @Autowired
+    private WalletClient walletClient;
+
+    final Grid<ItemToBuyDto> itemToBuyGrid = new Grid<>(ItemToBuyDto.class);
+
+    public ItemsToBuy(ItemToBuyClient itemToBuyClient, ExchangePortalClient exchangePortalClient, WalletClient walletClient) {
+        this.itemToBuyClient = itemToBuyClient;
+        this.exchangePortalClient = exchangePortalClient;
+        this.walletClient = walletClient;
 
         addClassName("list-view");
         setSizeFull();
@@ -39,10 +56,10 @@ public class ItemsToBuy extends VerticalLayout {
         updateList();
 
         // Create arguments for Form entries
-        List<ExchangePortal> exchangePortalList = exchangePortalService.getExchangePortals();
-        List<Wallet> walletList = walletService.getWallets();
+        List<ExchangePortalDto> exchangePortalDtoList = exchangePortalClient.getExchangePortals();
+        List<WalletDto> walletDtoList = walletClient.getWallets();
         
-        itemToBuySave = new ItemToBuySave(exchangePortalList);
+        itemToBuySave = new ItemToBuySave(exchangePortalDtoList);
         itemToBuySave.addListener(ItemToBuySave.SaveEvent.class, this::saveItemToBuy);
         itemToBuySave.addListener(ItemToBuySave.CloseEvent.class, e -> closeSaveEditor());
 
@@ -50,7 +67,7 @@ public class ItemsToBuy extends VerticalLayout {
         itemToBuyDelete.addListener(ItemToBuyDelete.DeleteEvent.class, this::deleteItemToBuy);
         itemToBuyDelete.addListener(ItemToBuyDelete.CloseEvent.class, e -> closeDeleteEditor());
 
-        itemToBuyFinalize = new ItemToBuyFinalize(walletList);
+        itemToBuyFinalize = new ItemToBuyFinalize(walletDtoList);
         itemToBuyFinalize.addListener(ItemToBuyFinalize.FinalizeEvent.class, this::finalizeItemToBuy);
         itemToBuyFinalize.addListener(ItemToBuyFinalize.CloseEvent.class, e -> closeFinalizeEditor());
 
@@ -66,33 +83,34 @@ public class ItemsToBuy extends VerticalLayout {
     }
 
     private void saveItemToBuy(ItemToBuySave.SaveEvent evt) {
-        itemToBuyService.save(evt.getItemToBuy());
+        //itemToBuyService.save(evt.getItemToBuy());
         updateList();
         closeSaveEditor();
     }
 
     private void deleteItemToBuy(ItemToBuyDelete.DeleteEvent evt) {
-        long idValue = ((evt.getLongVal().getIdValue()).longValue());
-        if (itemToBuyService.checkIfExists(idValue)) {
-            itemToBuyService.deleteItemToBuy(idValue);
-            updateList();
-            closeDeleteEditor();
-        } else {
-            System.out.println("Item to buy with id:" + idValue + " not found");
-        }
+//        long idValue = ((evt.getLongVal().getIdValue()).longValue());
+//
+//        if (itemToBuyService.checkIfExists(idValue)) {
+//            itemToBuyService.deleteItemToBuy(idValue);
+//            updateList();
+//            closeDeleteEditor();
+//        } else {
+//            System.out.println("Item to buy with id:" + idValue + " not found");
+//        }
     }
 
     private void finalizeItemToBuy(ItemToBuyFinalize.FinalizeEvent evt) {
-        Long itemToBuyId = ((evt.getItemFinalize().getIdValue()).longValue());
-        Long walletId = ((evt.getItemFinalize().getWallet().getId()).longValue());
-
-        if (itemToBuyService.checkIfExists(itemToBuyId) && (walletService.checkIfExistsById(walletId))) {
-            itemToBuyService.finalizeItemToBuy(itemToBuyId, walletId);
-            updateList();
-            closeFinalizeEditor();
-        } else {
-            System.out.println("Please check if item to buy Id :" + itemToBuyId + " and wallet id: " + walletId + " exists");
-        }
+//        Long itemToBuyId = ((evt.getItemFinalize().getIdValue()).longValue());
+//        Long walletId = ((evt.getItemFinalize().getWallet().getId()).longValue());
+//
+//        if (itemToBuyService.checkIfExists(itemToBuyId) && (walletService.checkIfExistsById(walletId))) {
+//            itemToBuyService.finalizeItemToBuy(itemToBuyId, walletId);
+//            updateList();
+//            closeFinalizeEditor();
+//        } else {
+//            System.out.println("Please check if item to buy Id :" + itemToBuyId + " and wallet id: " + walletId + " exists");
+//        }
     }
 
     private HorizontalLayout getToolBar() {
@@ -109,7 +127,7 @@ public class ItemsToBuy extends VerticalLayout {
         itemToBuyGrid.asSingleSelect().clear();
         closeDeleteEditor();
         closeFinalizeEditor();
-        editSaveItemToBuy(new ItemToBuy());
+        editSaveItemToBuy(new ItemToBuyDto());
     }
 
     private void deleteItemToBuyWindow() {
@@ -126,11 +144,11 @@ public class ItemsToBuy extends VerticalLayout {
         editFinalizeVal(new ItemFinalize());
     }
 
-    private void editSaveItemToBuy(ItemToBuy itemToBuy) {
-        if (itemToBuy == null) {
+    private void editSaveItemToBuy(ItemToBuyDto itemToBuyDto) {
+        if (itemToBuyDto == null) {
             closeSaveEditor();
         } else {
-            itemToBuySave.setItemToBuy(itemToBuy);
+            itemToBuySave.setItemToBuy(itemToBuyDto);
             itemToBuySave.setVisible(true);
             addClassName("editing");
         }
@@ -177,7 +195,7 @@ public class ItemsToBuy extends VerticalLayout {
     private void configureItemToBuyGrid() {
         itemToBuyGrid.addClassName("item-to-buy-grid");
         itemToBuyGrid.setSizeFull();
-        itemToBuyGrid.setColumns("id", "exchangePortal", "quantityToBuy");
+        itemToBuyGrid.setColumns("id", "exchangePortalId", "quantityToBuy");
         itemToBuyGrid.getColumns().get(0).setFlexGrow(2);
         itemToBuyGrid.getColumns().get(1).setFlexGrow(12);
         itemToBuyGrid.getColumns().get(2).setFlexGrow(2);
@@ -185,7 +203,6 @@ public class ItemsToBuy extends VerticalLayout {
     }
 
     private void updateList() {
-        itemToBuyGrid.setItems(itemToBuyService.getItemToBuys());
+        itemToBuyGrid.setItems(itemToBuyClient.getItemToBuys());
     }
 }
-*/

@@ -1,5 +1,6 @@
 package com.vaadin.domain;
 
+import com.vaadin.dto.WalletDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,5 +12,5 @@ import lombok.Setter;
 @Setter
 public class ItemFinalize {
     Double idValue;
-    Wallet wallet;
+    WalletDto walletDto;
 }

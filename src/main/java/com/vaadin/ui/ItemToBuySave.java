@@ -1,8 +1,7 @@
-/*
 package com.vaadin.ui;
 
-import com.vaadin.domain.ExchangePortal;
-import com.vaadin.domain.ItemToBuy;
+import com.vaadin.dto.ExchangePortalDto;
+import com.vaadin.dto.ItemToBuyDto;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
@@ -24,21 +23,21 @@ import java.util.List;
 @Route(value = "itemToBuySave", layout = MainLayout.class)
 public class ItemToBuySave extends FormLayout {
 
-    ComboBox<ExchangePortal> exchangePortal = new ComboBox<>("ExchangePortal");
+    ComboBox<ExchangePortalDto> exchangePortal = new ComboBox<>("ExchangePortal");
     NumberField quantityToBuy = new NumberField("Quantity to buy");
 
     Button save = new Button("Save");
     Button close = new Button("Cancel");
 
-    Binder<ItemToBuy> binder = new BeanValidationBinder<>(ItemToBuy.class);
-    private ItemToBuy itemToBuy;
+    Binder<ItemToBuyDto> binder = new BeanValidationBinder<>(ItemToBuyDto.class);
+    private ItemToBuyDto itemToBuyDto;
 
 
-    public ItemToBuySave(List<ExchangePortal> exchangePortalList) {
+    public ItemToBuySave(List<ExchangePortalDto> exchangePortalList) {
         addClassName("item-to-buy-save");
         binder.bindInstanceFields(this);
         exchangePortal.setItems(exchangePortalList);
-        exchangePortal.setItemLabelGenerator(ExchangePortal::toString);
+        exchangePortal.setItemLabelGenerator(ExchangePortalDto::toString);
 
         add(
                 exchangePortal,
@@ -47,9 +46,9 @@ public class ItemToBuySave extends FormLayout {
         );
     }
 
-    public void setItemToBuy(ItemToBuy itemToBuy) {
-        this.itemToBuy = itemToBuy;
-        binder.readBean(itemToBuy);
+    public void setItemToBuy(ItemToBuyDto itemToBuyDto) {
+        this.itemToBuyDto = itemToBuyDto;
+        binder.readBean(itemToBuyDto);
     }
 
     private Component createButtonsLayout() {
@@ -70,8 +69,8 @@ public class ItemToBuySave extends FormLayout {
     private void validateAndSave() {
 
         try {
-            binder.writeBean(itemToBuy);
-            fireEvent(new SaveEvent(this, itemToBuy));
+            binder.writeBean(itemToBuyDto);
+            fireEvent(new SaveEvent(this, itemToBuyDto));
         } catch (ValidationException e) {
             e.printStackTrace();
         }
@@ -79,21 +78,21 @@ public class ItemToBuySave extends FormLayout {
 
     // Events
     public static abstract class ItemToBuySaveEvent extends ComponentEvent<ItemToBuySave> {
-        private ItemToBuy itemToBuy;
+        private ItemToBuyDto itemToBuyDto;
 
-        protected ItemToBuySaveEvent(ItemToBuySave source, ItemToBuy itemToBuy) {
+        protected ItemToBuySaveEvent(ItemToBuySave source, ItemToBuyDto itemToBuyDto) {
             super(source, false);
-            this.itemToBuy = itemToBuy;
+            this.itemToBuyDto = itemToBuyDto;
         }
 
-        public ItemToBuy getItemToBuy() {
-            return itemToBuy;
+        public ItemToBuyDto getItemToBuy() {
+            return itemToBuyDto;
         }
     }
 
     public static class SaveEvent extends ItemToBuySaveEvent {
-        SaveEvent(ItemToBuySave source, ItemToBuy itemToBuy) {
-            super(source, itemToBuy);
+        SaveEvent(ItemToBuySave source, ItemToBuyDto itemToBuyDto) {
+            super(source, itemToBuyDto);
         }
     }
 
@@ -109,4 +108,3 @@ public class ItemToBuySave extends FormLayout {
         return getEventBus().addListener(eventType, listener);
     }
 }
-*/

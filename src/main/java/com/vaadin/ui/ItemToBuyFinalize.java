@@ -1,8 +1,8 @@
-/*
 package com.vaadin.ui;
 
 import com.vaadin.domain.ItemFinalize;
 import com.vaadin.domain.Wallet;
+import com.vaadin.dto.WalletDto;
 import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -25,7 +25,7 @@ public class ItemToBuyFinalize extends FormLayout {
 
     @PropertyId("idValue")
     NumberField idValue = new NumberField ("Type id of Item to Buy You want to finalize");
-    ComboBox<Wallet> wallet = new ComboBox<>("Choose wallet owner");
+    ComboBox<WalletDto> walletDto = new ComboBox<>("Choose wallet owner");
     
 
     Button save = new Button("Save");
@@ -36,18 +36,18 @@ public class ItemToBuyFinalize extends FormLayout {
     private ItemFinalize itemFinalize;
 
 
-    public ItemToBuyFinalize(List<Wallet> walletList) {
+    public ItemToBuyFinalize(List<WalletDto> walletList) {
         addClassName("item-to-buy-finalize");
         binder.bindInstanceFields(this);
         idValue.setValue(1d);
         idValue.setHasControls(true);
         idValue.setMin(1);
-        wallet.setItems(walletList);
-        wallet.setItemLabelGenerator(Wallet::toString);
+        walletDto.setItems(walletList);
+        walletDto.setItemLabelGenerator(WalletDto::toString);
         Text text = new Text("You cannot finalize items which are linked with ExchangePortal older than 20 min!");
         add(
                 idValue,
-                wallet,
+                walletDto,
                 createButtonsLayout(),
                 text
         );
@@ -125,4 +125,3 @@ public class ItemToBuyFinalize extends FormLayout {
         return getEventBus().addListener(eventType, listener);
     }
 }
-*/
