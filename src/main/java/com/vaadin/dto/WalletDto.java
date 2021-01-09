@@ -27,10 +27,8 @@ public class WalletDto {
 
     @Override
     public String toString() {
-        return "WalletDto{" +
+        return "Wallet: " +
                 "id=" + id +
-                ", name='" + name + '\'' +
-                ", walletItemList=" + walletItemList +
-                '}';
+                ", name='" + name +"'";
     }
 }

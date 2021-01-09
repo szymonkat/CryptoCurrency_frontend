@@ -54,7 +54,7 @@ public class WalletItems extends VerticalLayout {
 
         List<Currency> enumValues = Arrays.asList(Currency.values());
 
-        walletItemForm = new WalletItemForm(walletIdList, enumValues);
+        walletItemForm = new WalletItemForm(walletIdList, enumValues, walletClient);
         walletItemForm.addListener(WalletItemForm.SaveEvent.class, this::saveWalletItem);
         walletItemForm.addListener(WalletItemForm.DeleteEvent.class, this::deleteWalletItem);
         walletItemForm.addListener(WalletItemForm.CloseEvent.class, e -> closeEditor());
@@ -69,14 +69,12 @@ public class WalletItems extends VerticalLayout {
     }
 
     private void deleteWalletItem(WalletItemForm.DeleteEvent evt) {
-        //walletItemService.deleteWalletItem(evt.getWalletItem().getId());
         walletItemClient.deleteWalletItem(evt.getWalletItem().getId());
         updateList();
         closeEditor();
     }
 
     private void saveWalletItem(WalletItemForm.SaveEvent evt) {
-        //walletItemService.modifyWalletItem(evt.getWalletItem());
         walletItemClient.createWalletItem(evt.getWalletItem());
         updateList();
         closeEditor();
@@ -114,7 +112,11 @@ public class WalletItems extends VerticalLayout {
     private void configureWalletItemGrid() {
         walletItemGrid.addClassName("wallet-item-grid");
         walletItemGrid.setSizeFull();
-        walletItemGrid.setColumns("id", "currency", "quantity", "walletId");
+        walletItemGrid.setColumns("id", "currency", "quantity");
+        walletItemGrid.addColumn(walletItemDto -> {
+            WalletDto walletDto = walletClient.getWalletById(walletItemDto.getWalletId());
+            return walletDto == null ? "-" : walletDto.toString();
+        }).setHeader("Wallet");
         walletItemGrid.getDataProvider().refreshAll();
         walletItemGrid.getColumns().get(0).setFlexGrow(2);
         walletItemGrid.getColumns().get(1).setFlexGrow(3);
