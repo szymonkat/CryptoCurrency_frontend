@@ -1,16 +1,20 @@
-/*
 package com.vaadin.ui;
 
-import com.vaadin.domain.ExchangePortal;
-import com.vaadin.domain.ItemToBuy;
-import com.vaadin.domain.Wallet;
-import com.vaadin.domain.WalletItem;
+import com.vaadin.client.ExchangePortalClient;
+import com.vaadin.client.ItemToBuyClient;
+import com.vaadin.client.WalletClient;
+import com.vaadin.client.WalletItemClient;
+import com.vaadin.dto.ExchangePortalDto;
+import com.vaadin.dto.ItemToBuyDto;
+import com.vaadin.dto.WalletDto;
+import com.vaadin.dto.WalletItemDto;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @CssImport("./styles/styles.css")
 @Route(value = "allData", layout = MainLayout.class)
@@ -18,12 +22,32 @@ import com.vaadin.flow.router.Route;
 public class AllData extends VerticalLayout {
 
 
-    final Grid<Wallet> walletGrid = new Grid<>(Wallet.class);
-    final Grid<WalletItem> walletItemGrid = new Grid<>(WalletItem.class);
-    final Grid<ExchangePortal> exchangePortalGrid = new Grid<>(ExchangePortal.class);
-    final Grid<ItemToBuy> itemToBuyGrid = new Grid<>(ItemToBuy.class);
+    final Grid<WalletDto> walletGrid = new Grid<>(WalletDto.class);
+    final Grid<WalletItemDto> walletItemGrid = new Grid<>(WalletItemDto.class);
+    final Grid<ExchangePortalDto> exchangePortalGrid = new Grid<>(ExchangePortalDto.class);
+    final Grid<ItemToBuyDto> itemToBuyGrid = new Grid<>(ItemToBuyDto.class);
 
-    public AllData() {
+    @Autowired
+    private ItemToBuyClient itemToBuyClient;
+
+    @Autowired
+    private ExchangePortalClient exchangePortalClient;
+
+    @Autowired
+    private WalletClient walletClient;
+
+    @Autowired
+    private WalletItemClient walletItemClient;
+
+    public AllData(ItemToBuyClient itemToBuyClient,
+                   ExchangePortalClient exchangePortalClient,
+                   WalletClient walletClient,
+                   WalletItemClient walletItemClient) {
+
+        this.itemToBuyClient = itemToBuyClient;
+        this.exchangePortalClient = exchangePortalClient;
+        this.walletClient = walletClient;
+        this.walletItemClient = walletItemClient;
 
         addClassName("list-view");
         setSizeFull();
@@ -49,7 +73,7 @@ public class AllData extends VerticalLayout {
     private void configureWalletItemGrid() {
         walletItemGrid.addClassName("wallet-item-grid");
         walletItemGrid.setSizeFull();
-        walletItemGrid.setColumns("id", "currency", "quantity", "wallet");
+        walletItemGrid.setColumns("id", "currency", "quantity", "walletId");
         walletItemGrid.getDataProvider().refreshAll();
         walletItemGrid.getColumns().get(0).setFlexGrow(2);
         walletItemGrid.getColumns().get(1).setFlexGrow(3);
@@ -60,7 +84,7 @@ public class AllData extends VerticalLayout {
     private void configureExchangePortalGrid() {
         exchangePortalGrid.addClassName("exchange-portal-grid");
         exchangePortalGrid.setSizeFull();
-        exchangePortalGrid.setColumns("id", "provider", "currencyToBuy", "currencyToPay", "ratio", "time", "itemToBuy");
+        exchangePortalGrid.setColumns("id", "provider", "currencyToBuy", "currencyToPay", "ratio", "time", "itemToBuyDtoId");
         exchangePortalGrid.getDataProvider().refreshAll();
         exchangePortalGrid.getColumns().get(0).setFlexGrow(2);
         exchangePortalGrid.getColumns().get(1).setFlexGrow(4);
@@ -74,7 +98,7 @@ public class AllData extends VerticalLayout {
     private void configureItemToBuyGrid() {
         itemToBuyGrid.addClassName("item-to-buy-grid");
         itemToBuyGrid.setSizeFull();
-        itemToBuyGrid.setColumns("id", "exchangePortal", "quantityToBuy");
+        itemToBuyGrid.setColumns("id", "exchangePortalId", "quantityToBuy");
         itemToBuyGrid.getDataProvider().refreshAll();
         itemToBuyGrid.getColumns().get(0).setFlexGrow(2);
         itemToBuyGrid.getColumns().get(1).setFlexGrow(12);
@@ -89,9 +113,9 @@ public class AllData extends VerticalLayout {
     }
 
     private void updateLists() {
-        walletGrid.setItems();
-        walletItemGrid.setItems();
-        exchangePortalGrid.setItems();
-        itemToBuyGrid.setItems();
+        walletGrid.setItems(walletClient.getWallets());
+        walletItemGrid.setItems(walletItemClient.getWalletItems());
+        exchangePortalGrid.setItems(exchangePortalClient.getExchangePortals());
+        itemToBuyGrid.setItems(itemToBuyClient.getItemToBuys());
     }
-}*/
+}

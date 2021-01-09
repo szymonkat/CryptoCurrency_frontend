@@ -26,6 +26,7 @@ public class ItemToBuySave extends FormLayout {
     ComboBox<ExchangePortalDto> exchangePortal = new ComboBox<>("ExchangePortal");
     NumberField quantityToBuy = new NumberField("Quantity to buy");
 
+
     Button save = new Button("Save");
     Button close = new Button("Cancel");
 
@@ -38,6 +39,10 @@ public class ItemToBuySave extends FormLayout {
         binder.bindInstanceFields(this);
         exchangePortal.setItems(exchangePortalList);
         exchangePortal.setItemLabelGenerator(ExchangePortalDto::toString);
+        quantityToBuy.setValue(1d);
+        quantityToBuy.setHasControls(true);
+        quantityToBuy.setMin(1);
+
 
         add(
                 exchangePortal,

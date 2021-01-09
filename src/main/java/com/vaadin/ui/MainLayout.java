@@ -62,18 +62,16 @@ public class MainLayout extends AppLayout {
         RouterLink listItemsToBuy = new RouterLink("Items to buy", ItemsToBuy.class);
         listLinkWallets.setHighlightCondition(HighlightConditions.sameLocation());
 
-     /*   RouterLink listLink = new RouterLink("All data", AllData.class);
-        listLink.setHighlightCondition(HighlightConditions.sameLocation());*/
+        RouterLink listLink = new RouterLink("All data", AllData.class);
+        listLink.setHighlightCondition(HighlightConditions.sameLocation());
 
         addToDrawer(new VerticalLayout(
                 listLinkWallets,
-               listLinkWalletItems,
-              listExchangePortals,
-                  listItemsToBuy
-           /*      listLink,
-                new RouterLink("Analyzer", Analyzer.class)*/
+                listLinkWalletItems,
+                listExchangePortals,
+                listItemsToBuy,
+                listLink,
+                new RouterLink("Analyzer", Analyzer.class)
         ));
     }
-
-
 }

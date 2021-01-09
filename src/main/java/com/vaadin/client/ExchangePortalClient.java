@@ -52,4 +52,13 @@ public class ExchangePortalClient {
                 .build().encode().toUri();
         restTemplate.delete(url);
     }
+
+    public List<ExchangePortalDto> getExchangePortalsWithCurrency(Currency currency) {
+        try {
+            ExchangePortalDto[] boardsResponse = restTemplate.getForObject(getUrl(), ExchangePortalDto[].class);
+            return Arrays.asList(ofNullable(boardsResponse).orElse(new ExchangePortalDto[0]));
+        } catch (RestClientException e) {
+            return new ArrayList<>();
+        }
+    }
 }

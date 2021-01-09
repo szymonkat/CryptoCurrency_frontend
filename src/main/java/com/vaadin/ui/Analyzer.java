@@ -1,23 +1,30 @@
-/*
 package com.vaadin.ui;
 
+import com.vaadin.client.AnalyzerClient;
+import com.vaadin.client.ExchangePortalClient;
 import com.vaadin.domain.Currency;
 import com.vaadin.domain.ExchangePortal;
+import com.vaadin.dto.ExchangePortalDto;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.details.Details;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.service.interfaces.AnalyzerService;
-import com.vaadin.service.interfaces.ExchangePortalService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @PageTitle("Analyzer")
 @Route(value = "analyzer", layout = MainLayout.class)
 public class Analyzer extends VerticalLayout {
 
+    @Autowired
+    private AnalyzerClient analyzerClient;
 
-    public Analyzer() {
+    @Autowired
+    private ExchangePortalClient exchangePortalClient;
+
+    public Analyzer(AnalyzerClient analyzerClient, ExchangePortalClient exchangePortalClient) {
+        this.analyzerClient = analyzerClient;
+        this.exchangePortalClient = exchangePortalClient;
 
         addClassName("dashboard-view");
         setDefaultHorizontalComponentAlignment(Alignment.CENTER);
@@ -39,8 +46,8 @@ public class Analyzer extends VerticalLayout {
         if (checkIfCurrencyExchangePortalExists(Currency.XMR)) {
             data = "There is no XMR exchange Portals";
         } else {
-            ExchangePortal exchangePortal = analyzerService.findMinRatio(Currency.XMR);
-            data = exchangePortal.toString();
+            ExchangePortalDto exchangePortalDto = analyzerClient.getMinValueExchangePortal(Currency.XMR);
+            data = exchangePortalDto.toString();
         }
         Details component = new Details("XMR cheapest ratio",
                 new Text("Cheapest XMR: " + data));
@@ -53,8 +60,8 @@ public class Analyzer extends VerticalLayout {
         if (checkIfCurrencyExchangePortalExists(Currency.XMR)) {
             data = "There is no XMR exchange Portals";
         } else {
-            ExchangePortal exchangePortal = analyzerService.findMaxRatio(Currency.XMR);
-            data = exchangePortal.toString();
+            ExchangePortalDto exchangePortalDto = analyzerClient.getMaxValueExchangePortal(Currency.XMR);
+            data = exchangePortalDto.toString();
         }
         Details component = new Details("XMR most expensive ratio",
                 new Text("Most expensive XMR: " + data));
@@ -67,8 +74,8 @@ public class Analyzer extends VerticalLayout {
         if (checkIfCurrencyExchangePortalExists(Currency.BTC)) {
             data = "There is no BTC exchange Portals";
         } else {
-            ExchangePortal exchangePortal = analyzerService.findMaxRatio(Currency.BTC);
-            data = exchangePortal.toString();
+            ExchangePortalDto exchangePortalDto = analyzerClient.getMaxValueExchangePortal(Currency.BTC);
+            data = exchangePortalDto.toString();
         }
         Details component = new Details("BTC most expensive ratio",
                 new Text("Most expensive BTC: " + data));
@@ -81,8 +88,8 @@ public class Analyzer extends VerticalLayout {
         if (checkIfCurrencyExchangePortalExists(Currency.BTC)) {
             data = "There is no BTC exchange Portals";
         } else {
-            ExchangePortal exchangePortal = analyzerService.findMinRatio(Currency.BTC);
-            data = exchangePortal.toString();
+            ExchangePortalDto exchangePortalDto = analyzerClient.getMinValueExchangePortal(Currency.BTC);
+            data = exchangePortalDto.toString();
         }
         Details component = new Details("BTC cheapest ratio",
                 new Text("Cheapest BTC: " + data));
@@ -95,8 +102,8 @@ public class Analyzer extends VerticalLayout {
         if (checkIfCurrencyExchangePortalExists(Currency.XMR)) {
             data = "There is no XMR exchange Portals";
         } else {
-            ExchangePortal exchangePortal = analyzerService.findOldestRatio(Currency.XMR);
-            data = exchangePortal.toString();
+            ExchangePortalDto exchangePortalDto = analyzerClient.getOldestValueExchangePortal(Currency.XMR);
+            data = exchangePortalDto.toString();
         }
         Details component = new Details("XMR oldest ratio",
                 new Text("Oldest XMR:  " + data));
@@ -109,8 +116,8 @@ public class Analyzer extends VerticalLayout {
         if (checkIfCurrencyExchangePortalExists(Currency.XMR)) {
             data = "There is no XMR exchange Portals";
         } else {
-            ExchangePortal exchangePortal = analyzerService.findNewestRatio(Currency.XMR);
-            data = exchangePortal.toString();
+            ExchangePortalDto exchangePortalDto = analyzerClient.getNewestValueExchangePortal(Currency.XMR);
+            data = exchangePortalDto.toString();
         }
         Details component = new Details("XMR newest ratio",
                 new Text("Newest XMR:  " + data));
@@ -123,8 +130,8 @@ public class Analyzer extends VerticalLayout {
         if (checkIfCurrencyExchangePortalExists(Currency.BTC)) {
             data = "There is no BTC exchange Portals";
         } else {
-            ExchangePortal exchangePortal = analyzerService.findOldestRatio(Currency.BTC);
-            data = exchangePortal.toString();
+            ExchangePortalDto exchangePortalDto = analyzerClient.getOldestValueExchangePortal(Currency.BTC);
+            data = exchangePortalDto.toString();
         }
         Details component = new Details("BTC oldest ratio",
                 new Text("Oldest BTC:  " + data));
@@ -137,8 +144,8 @@ public class Analyzer extends VerticalLayout {
         if (checkIfCurrencyExchangePortalExists(Currency.BTC)) {
             data = "There is no BTC exchange Portals";
         } else {
-            ExchangePortal exchangePortal = analyzerService.findNewestRatio(Currency.BTC);
-            data = exchangePortal.toString();
+            ExchangePortalDto exchangePortalDto = analyzerClient.getNewestValueExchangePortal(Currency.BTC);
+            data = exchangePortalDto.toString();
         }
         Details component = new Details("BTC newest ratio",
                 new Text("Newest BTC:  " + data));
@@ -147,6 +154,6 @@ public class Analyzer extends VerticalLayout {
     }
 
     private boolean checkIfCurrencyExchangePortalExists(Currency currency) {
-        return exchangePortalService.getExchangePortalsWithCurrency(currency).isEmpty();
+        return exchangePortalClient.getExchangePortalsWithCurrency(currency).isEmpty();
     }
-}*/
+}

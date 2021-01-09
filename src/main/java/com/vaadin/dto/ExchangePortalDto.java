@@ -48,8 +48,6 @@ public class ExchangePortalDto {
                 ", currencyToBuy=" + currencyToBuy +
                 ", currencyToPay=" + currencyToPay +
                 ", ratio=" + ratio +
-                ", time=" + time +
-                ", itemToBuyDtoId=" + itemToBuyDtoId +
                 '}';
     }
 }
