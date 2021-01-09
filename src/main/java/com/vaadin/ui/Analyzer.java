@@ -3,7 +3,6 @@ package com.vaadin.ui;
 import com.vaadin.client.AnalyzerClient;
 import com.vaadin.client.ExchangePortalClient;
 import com.vaadin.domain.Currency;
-import com.vaadin.domain.ExchangePortal;
 import com.vaadin.dto.ExchangePortalDto;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.details.Details;

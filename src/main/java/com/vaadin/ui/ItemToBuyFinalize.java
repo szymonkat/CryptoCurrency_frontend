@@ -1,7 +1,6 @@
 package com.vaadin.ui;
 
 import com.vaadin.domain.ItemFinalize;
-import com.vaadin.domain.Wallet;
 import com.vaadin.dto.WalletDto;
 import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.button.Button;

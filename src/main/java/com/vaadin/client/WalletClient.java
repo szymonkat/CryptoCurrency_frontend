@@ -1,8 +1,6 @@
 package com.vaadin.client;
 
-import com.vaadin.domain.WalletItem;
 import com.vaadin.dto.WalletDto;
-import com.vaadin.dto.WalletItemDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;

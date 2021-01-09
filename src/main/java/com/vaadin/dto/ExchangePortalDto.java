@@ -1,7 +1,6 @@
 package com.vaadin.dto;
 
 import com.vaadin.domain.Currency;
-import com.vaadin.domain.ItemToBuy;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
