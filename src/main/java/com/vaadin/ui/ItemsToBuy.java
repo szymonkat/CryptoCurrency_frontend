@@ -3,7 +3,8 @@ package com.vaadin.ui;
 import com.vaadin.client.ExchangePortalClient;
 import com.vaadin.client.ItemToBuyClient;
 import com.vaadin.client.WalletClient;
-import com.vaadin.domain.*;
+import com.vaadin.domain.ItemFinalize;
+import com.vaadin.domain.LongVal;
 import com.vaadin.dto.ExchangePortalDto;
 import com.vaadin.dto.ItemToBuyDto;
 import com.vaadin.dto.WalletDto;
@@ -17,7 +18,6 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
-
 
 import java.util.List;
 import java.util.stream.Collectors;

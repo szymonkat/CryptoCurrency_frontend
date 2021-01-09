@@ -2,7 +2,6 @@ package com.vaadin.client;
 
 import com.vaadin.domain.Currency;
 import com.vaadin.dto.ExchangePortalDto;
-import com.vaadin.dto.WalletDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;

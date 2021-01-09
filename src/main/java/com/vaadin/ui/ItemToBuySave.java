@@ -1,6 +1,5 @@
 package com.vaadin.ui;
 
-import com.vaadin.dto.ExchangePortalDto;
 import com.vaadin.dto.ItemToBuyDto;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEvent;
