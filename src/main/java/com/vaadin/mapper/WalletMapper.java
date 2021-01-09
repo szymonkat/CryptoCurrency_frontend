@@ -15,18 +15,18 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class WalletMapper {
 
-    private final WalletItemMapper walletItemMapper;
+   // private final WalletItemMapper walletItemMapper;
 
     public Wallet mapToWallet(WalletDto walletDto) {
         if (walletDto.getId() == null) {
             return new Wallet(walletDto.getName(), new ArrayList<>());
         } else  {
-            return new Wallet(walletDto.getId(), walletDto.getName(), walletItemMapper.mapToWalletItemList(walletDto.getWalletItemList()));
+            return new Wallet(walletDto.getId(), walletDto.getName(), new ArrayList<>());
         }
     }
 
     public WalletDto mapToWalletDto(Wallet wallet) {
-        return new WalletDto(wallet.getId(), wallet.getName(), walletItemMapper.mapToWalletItemDtoList(wallet.getWalletItemList()));
+        return new WalletDto(wallet.getId(), wallet.getName(), new ArrayList<>());
     }
 
     public List<Wallet> mapToWalletList(List<WalletDto> walletDtoList) {
