@@ -56,9 +56,9 @@ public class MainLayout extends AppLayout {
       RouterLink listLinkWalletItems = new RouterLink("Wallet Items", WalletItems.class);
         listLinkWallets.setHighlightCondition(HighlightConditions.sameLocation());
 
- /*         RouterLink listExchangePortals = new RouterLink("Exchange Portals", ExchangePortals.class);
+          RouterLink listExchangePortals = new RouterLink("Exchange Portals", ExchangePortals.class);
         listLinkWallets.setHighlightCondition(HighlightConditions.sameLocation());
-
+/*
         RouterLink listItemsToBuy = new RouterLink("Items to buy", ItemsToBuy.class);
         listLinkWallets.setHighlightCondition(HighlightConditions.sameLocation());
 
@@ -67,9 +67,9 @@ public class MainLayout extends AppLayout {
 
         addToDrawer(new VerticalLayout(
                 listLinkWallets,
-               listLinkWalletItems
-        /*         listExchangePortals,
-                listItemsToBuy,
+               listLinkWalletItems,
+              listExchangePortals
+          /*         listItemsToBuy,
                 listLink,
                 new RouterLink("Analyzer", Analyzer.class)*/
         ));

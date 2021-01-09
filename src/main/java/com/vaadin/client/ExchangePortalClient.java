@@ -1,5 +1,6 @@
 package com.vaadin.client;
 
+import com.vaadin.domain.Currency;
 import com.vaadin.dto.ExchangePortalDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,6 +17,7 @@ import static java.util.Optional.ofNullable;
 
 @Component
 public class ExchangePortalClient {
+
     @Autowired
     private ClientConfig clientConfig;
 
@@ -23,12 +25,20 @@ public class ExchangePortalClient {
     private RestTemplate restTemplate;
 
     public URI getUrl() {
-        URI url = UriComponentsBuilder.fromHttpUrl(clientConfig.getBackApiAddress() + "/exchange/")
+        URI url = UriComponentsBuilder.fromHttpUrl(clientConfig.getBackApiAddress() + "exchange/")
                 .build().encode().toUri();
         return url;
     }
 
-    public List<ExchangePortalDto> getExchangePortals() {
+    public ExchangePortalDto createExchangePortal(Currency currency, String serviceName) {
+        URI url = UriComponentsBuilder.fromHttpUrl(clientConfig.getBackApiAddress() + "exchange/")
+                .queryParam("currency", currency)
+                .queryParam("serviceName", serviceName)
+                .build().encode().toUri();
+        return restTemplate.postForObject(url, null,  ExchangePortalDto.class);
+    }
+
+   public List<ExchangePortalDto> getExchangePortals() {
         try {
             ExchangePortalDto[] boardsResponse = restTemplate.getForObject(getUrl(), ExchangePortalDto[].class);
             return Arrays.asList(ofNullable(boardsResponse).orElse(new ExchangePortalDto[0]));
@@ -37,14 +47,9 @@ public class ExchangePortalClient {
         }
     }
 
-    public ExchangePortalDto getExchangePortalById(Long exchangePortalId) {
-        URI url = UriComponentsBuilder.fromHttpUrl(clientConfig.getBackApiAddress() + "/exchange/" + exchangePortalId)
+    public void deleteExchangePortal(Long exchangePortalId) {
+        URI url = UriComponentsBuilder.fromHttpUrl(clientConfig.getBackApiAddress() + "exchange/" + exchangePortalId)
                 .build().encode().toUri();
-        try {
-            ExchangePortalDto boardsResponse = restTemplate.getForObject(url, ExchangePortalDto.class);
-            return boardsResponse;
-        } catch (RestClientException e) {
-            return new ExchangePortalDto();
-        }
+        restTemplate.delete(url);
     }
 }

@@ -1,7 +1,7 @@
-/*
 package com.vaadin.ui;
 
 import com.vaadin.domain.*;
+import com.vaadin.dto.ExchangePortalDto;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
@@ -35,8 +35,8 @@ public class ExchangePortalForm extends FormLayout {
     Button delete = new Button("Delete");
     Button close = new Button("Cancel");
 
-    Binder<ExchangePortal> binder = new BeanValidationBinder<>(ExchangePortal.class);
-    private ExchangePortal exchangePortal;
+    Binder<ExchangePortalDto> binder = new BeanValidationBinder<>(ExchangePortalDto.class);
+    private ExchangePortalDto exchangePortalDto;
 
 
     public ExchangePortalForm(List<String> providerList, List<Currency> currenciesList, Currency usd) {
@@ -56,9 +56,9 @@ public class ExchangePortalForm extends FormLayout {
         );
     }
 
-    public void setExchangePortal(ExchangePortal exchangePortal) {
-        this.exchangePortal = exchangePortal;
-        binder.readBean(exchangePortal);
+    public void setExchangePortal(ExchangePortalDto exchangePortalDto) {
+        this.exchangePortalDto = exchangePortalDto;
+        binder.readBean(exchangePortalDto);
     }
 
     private Component createButtonsLayout() {
@@ -70,7 +70,7 @@ public class ExchangePortalForm extends FormLayout {
         close.addClickShortcut(Key.ESCAPE);
 
         save.addClickListener(click -> validateAndSave());
-        delete.addClickListener(click -> fireEvent(new DeleteEvent(this, exchangePortal)));
+        delete.addClickListener(click -> fireEvent(new DeleteEvent(this, exchangePortalDto)));
         close.addClickListener(click -> fireEvent(new CloseEvent(this)));
 
         binder.addStatusChangeListener(evt -> save.setEnabled(binder.isValid()));
@@ -81,8 +81,8 @@ public class ExchangePortalForm extends FormLayout {
     private void validateAndSave() {
 
         try {
-            binder.writeBean(exchangePortal);
-            fireEvent(new SaveEvent(this, exchangePortal));
+            binder.writeBean(exchangePortalDto);
+            fireEvent(new SaveEvent(this, exchangePortalDto));
         } catch (ValidationException e) {
             e.printStackTrace();
         }
@@ -90,27 +90,27 @@ public class ExchangePortalForm extends FormLayout {
 
     // Events
     public static abstract class ExchangePortalFormEvent extends ComponentEvent<ExchangePortalForm> {
-        private ExchangePortal exchangePortal;
+        private ExchangePortalDto exchangePortalDto;
 
-        protected ExchangePortalFormEvent(ExchangePortalForm source, ExchangePortal exchangePortal) {
+        protected ExchangePortalFormEvent(ExchangePortalForm source, ExchangePortalDto exchangePortalDto) {
             super(source, false);
-            this.exchangePortal = exchangePortal;
+            this.exchangePortalDto = exchangePortalDto;
         }
 
-        public ExchangePortal getExchangePortal() {
-            return exchangePortal;
+        public ExchangePortalDto getExchangePortal() {
+            return exchangePortalDto;
         }
     }
 
     public static class SaveEvent extends ExchangePortalFormEvent {
-        SaveEvent(ExchangePortalForm source, ExchangePortal exchangePortal) {
-            super(source, exchangePortal);
+        SaveEvent(ExchangePortalForm source, ExchangePortalDto exchangePortalDto) {
+            super(source, exchangePortalDto);
         }
     }
 
     public static class DeleteEvent extends ExchangePortalFormEvent {
-        DeleteEvent(ExchangePortalForm source, ExchangePortal exchangePortal) {
-            super(source, exchangePortal);
+        DeleteEvent(ExchangePortalForm source, ExchangePortalDto exchangePortalDto) {
+            super(source, exchangePortalDto);
         }
     }
 
@@ -125,4 +125,3 @@ public class ExchangePortalForm extends FormLayout {
         return getEventBus().addListener(eventType, listener);
     }
 }
-*/

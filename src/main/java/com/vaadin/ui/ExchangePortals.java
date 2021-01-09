@@ -1,9 +1,8 @@
-/*
 package com.vaadin.ui;
 
-import com.vaadin.client.ApiService;
-import com.vaadin.client.ServiceFactory;
+import com.vaadin.client.ExchangePortalClient;
 import com.vaadin.domain.*;
+import com.vaadin.dto.ExchangePortalDto;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
@@ -13,12 +12,10 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.service.implementations.ExchangePortalServiceImpl;
-import com.vaadin.service.interfaces.ExchangePortalService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @CssImport("./styles/styles.css")
@@ -28,9 +25,13 @@ public class ExchangePortals extends VerticalLayout {
 
     private ExchangePortalForm exchangePortalForm;
 
-    final Grid<ExchangePortal> exchangePortalGrid = new Grid<>(ExchangePortal.class);
+    @Autowired
+    private ExchangePortalClient exchangePortalClient;
 
-    public ExchangePortals() {
+    final Grid<ExchangePortalDto> exchangePortalGrid = new Grid<>(ExchangePortalDto.class);
+
+    public ExchangePortals(ExchangePortalClient exchangePortalClient) {
+        this.exchangePortalClient = exchangePortalClient;
 
         addClassName("list-view");
         setSizeFull();
@@ -66,14 +67,14 @@ public class ExchangePortals extends VerticalLayout {
     }
 
     private void deleteExchangePortal(ExchangePortalForm.DeleteEvent evt) {
-        exchangePortalService.delete(evt.getExchangePortal().getId());
+        exchangePortalClient.deleteExchangePortal(evt.getExchangePortal().getId());
         updateList();
         closeEditor();
     }
 
     private void saveExchangePortal(ExchangePortalForm.SaveEvent evt) {
-        ApiService apiService = serviceFactory.createService(evt.getExchangePortal().getProvider());
-        exchangePortalService.save(apiService.createExchangePortal(evt.getExchangePortal().getCurrencyToBuy()));
+        exchangePortalClient.createExchangePortal(evt.getExchangePortal().getCurrencyToBuy(),
+                evt.getExchangePortal().getProvider());
         updateList();
         closeEditor();
     }
@@ -88,14 +89,14 @@ public class ExchangePortals extends VerticalLayout {
 
     private void addExchangePortal() {
         exchangePortalGrid.asSingleSelect().clear();
-        editExchangePortal(new ExchangePortal());
+        editExchangePortal(new ExchangePortalDto());
     }
 
-    private void editExchangePortal(ExchangePortal exchangePortal) {
-        if (exchangePortal == null) {
+    private void editExchangePortal(ExchangePortalDto exchangePortalDto) {
+        if (exchangePortalDto == null) {
             closeEditor();
         } else {
-            exchangePortalForm.setExchangePortal(exchangePortal);
+            exchangePortalForm.setExchangePortal(exchangePortalDto);
             exchangePortalForm.setVisible(true);
             addClassName("editing");
         }
@@ -110,7 +111,7 @@ public class ExchangePortals extends VerticalLayout {
     private void configureExchangePortalGrid() {
         exchangePortalGrid.addClassName("exchange-portal-grid");
         exchangePortalGrid.setSizeFull();
-        exchangePortalGrid.setColumns("id", "provider", "currencyToBuy", "currencyToPay", "ratio", "time", "itemToBuy");
+        exchangePortalGrid.setColumns("id", "provider", "currencyToBuy", "currencyToPay", "ratio", "time", "itemToBuyDtoId");
         exchangePortalGrid.getDataProvider().refreshAll();
         exchangePortalGrid.getColumns().get(0).setFlexGrow(2);
         exchangePortalGrid.getColumns().get(1).setFlexGrow(4);
@@ -123,6 +124,6 @@ public class ExchangePortals extends VerticalLayout {
     }
 
     private void updateList() {
-        exchangePortalGrid.setItems(exchangePortalService.getExchangePortals());
+        exchangePortalGrid.setItems(exchangePortalClient.getExchangePortals());
     }
-}*/
+}

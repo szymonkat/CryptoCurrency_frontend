@@ -1,7 +1,6 @@
 /*
 package com.vaadin.ui;
 
-import com.vaadin.controller.ItemToBuyController;
 import com.vaadin.domain.*;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -12,10 +11,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.service.interfaces.ExchangePortalService;
-import com.vaadin.service.interfaces.ItemToBuyService;
-import com.vaadin.service.interfaces.WalletService;
-import org.springframework.beans.factory.annotation.Autowired;
+
 
 import java.util.List;
 
@@ -191,4 +187,5 @@ public class ItemsToBuy extends VerticalLayout {
     private void updateList() {
         itemToBuyGrid.setItems(itemToBuyService.getItemToBuys());
     }
-}*/
+}
+*/

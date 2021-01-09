@@ -69,25 +69,4 @@ public class WalletClient {
         restTemplate.delete(url);
     }
 
-    public List<WalletItemDto> getItemWalletsDto(Long walletId) {
-        URI url = UriComponentsBuilder.fromHttpUrl(clientConfig.getBackApiAddress() + "wallet/items/" + walletId)
-                .build().encode().toUri();
-        try {
-            WalletItemDto[] boardsResponse = restTemplate.getForObject(url, WalletItemDto[].class);
-            return Arrays.asList(ofNullable(boardsResponse).orElse(new WalletItemDto[0]));
-        } catch (RestClientException e) {
-            return new ArrayList<>();
-        }
-    }
-
-    public List<WalletItem> getItemWallets(Long walletId) {
-        URI url = UriComponentsBuilder.fromHttpUrl(clientConfig.getBackApiAddress() + "wallet/item/" + walletId)
-                .build().encode().toUri();
-        try {
-            WalletItem[] boardsResponse = restTemplate.getForObject(url, WalletItem[].class);
-            return Arrays.asList(ofNullable(boardsResponse).orElse(new WalletItem[0]));
-        } catch (RestClientException e) {
-            return new ArrayList<>();
-        }
-    }
 }
