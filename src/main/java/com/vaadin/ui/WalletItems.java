@@ -3,8 +3,8 @@ package com.vaadin.ui;
 import com.vaadin.client.WalletClient;
 import com.vaadin.client.WalletItemClient;
 import com.vaadin.domain.Currency;
-import com.vaadin.domain.Wallet;
-import com.vaadin.domain.WalletItem;
+import com.vaadin.dto.WalletDto;
+import com.vaadin.dto.WalletItemDto;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
@@ -14,12 +14,11 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.mapper.WalletItemMapper;
-import com.vaadin.mapper.WalletMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @CssImport("./styles/styles.css")
 @Route(value = "walletItems", layout = MainLayout.class)
@@ -33,20 +32,11 @@ public class WalletItems extends VerticalLayout {
     @Autowired
     private WalletItemClient walletItemClient;
 
-    @Autowired
-    private WalletItemMapper walletItemMapper;
+    final Grid<WalletItemDto> walletItemGrid = new Grid<>(WalletItemDto.class);
 
-    @Autowired
-    private WalletMapper walletMapper;
-
-    final Grid<WalletItem> walletItemGrid = new Grid<>(WalletItem.class);
-
-    public WalletItems(WalletClient walletClient, WalletItemClient walletItemClient, WalletItemMapper walletItemMapper,
-    WalletMapper walletMapper) {
+    public WalletItems(WalletClient walletClient, WalletItemClient walletItemClient) {
         this.walletClient = walletClient;
         this. walletItemClient = walletItemClient;
-        this.walletItemMapper = walletItemMapper;
-        this.walletMapper = walletMapper;
 
         addClassName("list-view");
         setSizeFull();
@@ -58,10 +48,13 @@ public class WalletItems extends VerticalLayout {
         updateList();
 
         // Create arguments for Form entries
-        List<Wallet> walletList = walletMapper.mapToWalletList(walletClient.getWallets());
+        List<Long> walletIdList = walletClient.getWallets().stream()
+                .map(n -> n.getId())
+                .collect(Collectors.toList());
+
         List<Currency> enumValues = Arrays.asList(Currency.values());
 
-        walletItemForm = new WalletItemForm(walletList, enumValues);
+        walletItemForm = new WalletItemForm(walletIdList, enumValues);
         walletItemForm.addListener(WalletItemForm.SaveEvent.class, this::saveWalletItem);
         walletItemForm.addListener(WalletItemForm.DeleteEvent.class, this::deleteWalletItem);
         walletItemForm.addListener(WalletItemForm.CloseEvent.class, e -> closeEditor());
@@ -84,7 +77,7 @@ public class WalletItems extends VerticalLayout {
 
     private void saveWalletItem(WalletItemForm.SaveEvent evt) {
         //walletItemService.modifyWalletItem(evt.getWalletItem());
-        walletItemClient.createWalletItem(walletItemMapper.mapToWalletItemDto(evt.getWalletItem()));
+        walletItemClient.createWalletItem(evt.getWalletItem());
         updateList();
         closeEditor();
     }
@@ -99,14 +92,14 @@ public class WalletItems extends VerticalLayout {
 
     private void addWalletItem() {
         walletItemGrid.asSingleSelect().clear();
-        editWalletItem(new WalletItem());
+        editWalletItem(new WalletItemDto());
     }
 
-    private void editWalletItem(WalletItem walletItem) {
-        if (walletItem == null) {
+    private void editWalletItem(WalletItemDto walletItemDto) {
+        if (walletItemDto == null) {
             closeEditor();
         } else {
-            walletItemForm.setWalletItem(walletItem);
+            walletItemForm.setWalletItem(walletItemDto);
             walletItemForm.setVisible(true);
             addClassName("editing");
         }
@@ -121,7 +114,7 @@ public class WalletItems extends VerticalLayout {
     private void configureWalletItemGrid() {
         walletItemGrid.addClassName("wallet-item-grid");
         walletItemGrid.setSizeFull();
-        walletItemGrid.setColumns("id", "currency", "quantity", "wallet");
+        walletItemGrid.setColumns("id", "currency", "quantity", "walletId");
         walletItemGrid.getDataProvider().refreshAll();
         walletItemGrid.getColumns().get(0).setFlexGrow(2);
         walletItemGrid.getColumns().get(1).setFlexGrow(3);
@@ -131,6 +124,6 @@ public class WalletItems extends VerticalLayout {
     }
 
     private void updateList() {
-        walletItemGrid.setItems(walletItemMapper.mapToWalletItemList(walletItemClient.getWalletItems()));
+        walletItemGrid.setItems(walletItemClient.getWalletItems());
     }
 }

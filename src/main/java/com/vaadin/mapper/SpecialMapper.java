@@ -1,3 +1,4 @@
+/*
 package com.vaadin.mapper;
 
 import lombok.RequiredArgsConstructor;
@@ -14,3 +15,4 @@ public class SpecialMapper {
 
 
 }
+*/

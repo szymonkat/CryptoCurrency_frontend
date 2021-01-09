@@ -1,8 +1,8 @@
 package com.vaadin.ui;
 
 import com.vaadin.domain.Currency;
-import com.vaadin.domain.Wallet;
-import com.vaadin.domain.WalletItem;
+import com.vaadin.dto.WalletDto;
+import com.vaadin.dto.WalletItemDto;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
@@ -26,22 +26,22 @@ public class WalletItemForm extends FormLayout {
 
     ComboBox<Currency> currency = new ComboBox<>("Currency");
     NumberField quantity = new NumberField("Quantity");
-    ComboBox<Wallet> wallet = new ComboBox<>("Wallet owner's name");
+    ComboBox<Long> walletId = new ComboBox<>("Wallet owner's name");
 
     Button save = new Button("Create");
     Button delete = new Button("Delete");
     Button close = new Button("Cancel");
 
-    Binder<WalletItem> binder = new BeanValidationBinder<>(WalletItem.class);
-    private WalletItem walletItem;
+    Binder<WalletItemDto> binder = new BeanValidationBinder<>(WalletItemDto.class);
+    private WalletItemDto walletItemDto;
 
-    public WalletItemForm(List<Wallet> walletsList, List<Currency> currenciesList) {
+    public WalletItemForm(List<Long> walletIdList, List<Currency> currenciesList) {
         addClassName("wallet-item-form");
         binder.bindInstanceFields(this);
         currency.setItems(currenciesList);
         currency.setItemLabelGenerator(Currency::name);
-        wallet.setItems(walletsList);
-        wallet.setItemLabelGenerator(Wallet::getName);
+        walletId.setItems(walletIdList);
+        walletId.setItemLabelGenerator(Long::toUnsignedString);
         quantity.setValue(1d);
         quantity.setHasControls(true);
         quantity.setMin(0);
@@ -51,14 +51,14 @@ public class WalletItemForm extends FormLayout {
         add(
                 currency,
                 quantity,
-                wallet,
+                walletId,
                 createButtonsLayout()
         );
     }
 
-    public void setWalletItem(WalletItem walletItem) {
-        this.walletItem = walletItem;
-        binder.readBean(walletItem);
+    public void setWalletItem(WalletItemDto walletItemDto) {
+        this.walletItemDto = walletItemDto;
+        binder.readBean(walletItemDto);
     }
 
     private Component createButtonsLayout() {
@@ -70,7 +70,7 @@ public class WalletItemForm extends FormLayout {
         close.addClickShortcut(Key.ESCAPE);
 
         save.addClickListener(click -> validateAndSave());
-        delete.addClickListener(click -> fireEvent(new DeleteEvent(this, walletItem)));
+        delete.addClickListener(click -> fireEvent(new DeleteEvent(this, walletItemDto)));
         close.addClickListener(click -> fireEvent(new CloseEvent(this)));
 
         binder.addStatusChangeListener(evt -> save.setEnabled(binder.isValid()));
@@ -81,8 +81,8 @@ public class WalletItemForm extends FormLayout {
     private void validateAndSave() {
 
         try {
-            binder.writeBean(walletItem);
-            fireEvent(new SaveEvent(this, walletItem));
+            binder.writeBean(walletItemDto);
+            fireEvent(new SaveEvent(this, walletItemDto));
         } catch (ValidationException e) {
             e.printStackTrace();
         }
@@ -90,29 +90,28 @@ public class WalletItemForm extends FormLayout {
 
     // Events
     public static abstract class WalletItemFormEvent extends ComponentEvent<WalletItemForm> {
-        private WalletItem walletItem;
+        private WalletItemDto walletItemDto;
 
-        protected WalletItemFormEvent(WalletItemForm source, WalletItem walletItem) {
+        protected WalletItemFormEvent(WalletItemForm source, WalletItemDto walletItemDto) {
             super(source, false);
-            this.walletItem = walletItem;
+            this.walletItemDto = walletItemDto;
         }
 
-        public WalletItem getWalletItem() {
-            return walletItem;
+        public WalletItemDto getWalletItem() {
+            return walletItemDto;
         }
     }
 
     public static class SaveEvent extends WalletItemFormEvent {
-        SaveEvent(WalletItemForm source, WalletItem walletItem) {
-            super(source, walletItem);
+        SaveEvent(WalletItemForm source, WalletItemDto walletItemDto) {
+            super(source, walletItemDto);
         }
     }
 
     public static class DeleteEvent extends WalletItemFormEvent {
-        DeleteEvent(WalletItemForm source, WalletItem walletItem) {
-            super(source, walletItem);
+        DeleteEvent(WalletItemForm source, WalletItemDto walletItemDto) {
+            super(source, walletItemDto);
         }
-
     }
 
     public static class CloseEvent extends WalletItemFormEvent {

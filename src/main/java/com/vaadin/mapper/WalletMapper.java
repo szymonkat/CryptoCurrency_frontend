@@ -1,3 +1,4 @@
+/*
 package com.vaadin.mapper;
 
 import com.vaadin.client.WalletClient;
@@ -44,3 +45,4 @@ public class WalletMapper {
 
 //walletItemMapper.mapToWalletItemDtoList(wallet.getWalletItemList())
 
+*/
