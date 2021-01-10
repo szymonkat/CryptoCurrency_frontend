@@ -10,5 +10,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class LongVal {
-    Double idValue;
+    Long idValue;
 }

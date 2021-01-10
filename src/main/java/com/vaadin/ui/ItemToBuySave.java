@@ -1,5 +1,6 @@
 package com.vaadin.ui;
 
+import com.vaadin.client.ExchangePortalClient;
 import com.vaadin.dto.ItemToBuyDto;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEvent;
@@ -33,11 +34,11 @@ public class ItemToBuySave extends FormLayout {
     private ItemToBuyDto itemToBuyDto;
 
 
-    public ItemToBuySave(List<Long> exchangePortalList) {
+    public ItemToBuySave(List<Long> exchangePortalList, ExchangePortalClient exchangePortalClient) {
         addClassName("item-to-buy-save");
         binder.bindInstanceFields(this);
         exchangePortalId.setItems(exchangePortalList);
-        exchangePortalId.setItemLabelGenerator(Long::toUnsignedString);
+        exchangePortalId.setItemLabelGenerator(Long -> exchangePortalClient.getExchangePortalById(Long).toString());
         quantityToBuy.setValue(1d);
         quantityToBuy.setHasControls(true);
         quantityToBuy.setMin(1);

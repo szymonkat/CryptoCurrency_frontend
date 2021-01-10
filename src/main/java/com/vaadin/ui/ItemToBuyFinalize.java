@@ -1,5 +1,6 @@
 package com.vaadin.ui;
 
+import com.vaadin.client.ItemToBuyClient;
 import com.vaadin.domain.ItemFinalize;
 import com.vaadin.dto.WalletDto;
 import com.vaadin.flow.component.*;
@@ -23,7 +24,7 @@ import java.util.List;
 public class ItemToBuyFinalize extends FormLayout {
 
     @PropertyId("idValue")
-    NumberField idValue = new NumberField ("Type id of Item to Buy You want to finalize");
+    ComboBox<Long> idValue = new ComboBox<> ("Select Item to Buy You want to finalize");
     ComboBox<WalletDto> walletDto = new ComboBox<>("Choose wallet owner");
     
 
@@ -35,12 +36,13 @@ public class ItemToBuyFinalize extends FormLayout {
     private ItemFinalize itemFinalize;
 
 
-    public ItemToBuyFinalize(List<WalletDto> walletList) {
+    public ItemToBuyFinalize(List<WalletDto> walletList,
+                             List<Long> itemToBuyLongList,
+                             ItemToBuyClient itemToBuyClient) {
         addClassName("item-to-buy-finalize");
         binder.bindInstanceFields(this);
-        idValue.setValue(1d);
-        idValue.setHasControls(true);
-        idValue.setMin(1);
+        idValue.setItems(itemToBuyLongList);
+        idValue.setItemLabelGenerator(Long -> itemToBuyClient.getItemToBuyById(Long).toString());
         walletDto.setItems(walletList);
         walletDto.setItemLabelGenerator(WalletDto::toString);
         Text text = new Text("You cannot finalize items which are linked with ExchangePortal older than 20 min!");

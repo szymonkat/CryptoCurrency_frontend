@@ -61,17 +61,21 @@ public class ItemsToBuy extends VerticalLayout {
                 .map(n -> n.getId())
                 .collect(Collectors.toList());
 
+        List<Long> itemToBuyDtoLongList = itemToBuyClient.getItemToBuys().stream()
+                .map(n -> n.getId())
+                .collect(Collectors.toList());
+
         List<WalletDto> walletDtoList = walletClient.getWallets();
         
-        itemToBuySave = new ItemToBuySave(exchangePortalDtoList);
+        itemToBuySave = new ItemToBuySave(exchangePortalDtoList, exchangePortalClient);
         itemToBuySave.addListener(ItemToBuySave.SaveEvent.class, this::saveItemToBuy);
         itemToBuySave.addListener(ItemToBuySave.CloseEvent.class, e -> closeSaveEditor());
 
-        itemToBuyDelete = new ItemToBuyDelete();
+        itemToBuyDelete = new ItemToBuyDelete(itemToBuyDtoLongList, itemToBuyClient);
         itemToBuyDelete.addListener(ItemToBuyDelete.DeleteEvent.class, this::deleteItemToBuy);
         itemToBuyDelete.addListener(ItemToBuyDelete.CloseEvent.class, e -> closeDeleteEditor());
 
-        itemToBuyFinalize = new ItemToBuyFinalize(walletDtoList);
+        itemToBuyFinalize = new ItemToBuyFinalize(walletDtoList, itemToBuyDtoLongList, itemToBuyClient);
         itemToBuyFinalize.addListener(ItemToBuyFinalize.FinalizeEvent.class, this::finalizeItemToBuy);
         itemToBuyFinalize.addListener(ItemToBuyFinalize.CloseEvent.class, e -> closeFinalizeEditor());
 
@@ -93,20 +97,21 @@ public class ItemsToBuy extends VerticalLayout {
     }
 
     private void deleteItemToBuy(ItemToBuyDelete.DeleteEvent evt) {
-        long idValue = ((evt.getLongVal().getIdValue()).longValue());
+        long idValue = (evt.getLongVal().getIdValue());
 
         try {
             itemToBuyClient.deleteItemToBuy(idValue);
         } catch (Exception e) {
-
+            System.out.println(e.toString());
         }
+
         updateList();
         closeDeleteEditor();
     }
 
     private void finalizeItemToBuy(ItemToBuyFinalize.FinalizeEvent evt) {
-        Long itemToBuyId = ((evt.getItemFinalize().getIdValue()).longValue());
-        Long walletId = ((evt.getItemFinalize().getWalletDto().getId()).longValue());
+        Long itemToBuyId = evt.getItemFinalize().getIdValue();
+        Long walletId = evt.getItemFinalize().getWalletDto().getId();
 
         try {
             itemToBuyClient.finalizeItemToBuy(itemToBuyId, walletId);
@@ -116,10 +121,6 @@ public class ItemsToBuy extends VerticalLayout {
         }
         updateList();
         closeFinalizeEditor();
-
-       /* if (itemToBuyService.checkIfExists(itemToBuyId) && (walletService.checkIfExistsById(walletId))) {
-            itemToBuyService.finalizeItemToBuy(itemToBuyId, walletId);
-        } */
     }
 
     private HorizontalLayout getToolBar() {

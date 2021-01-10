@@ -1,5 +1,6 @@
 package com.vaadin.ui;
 
+import com.vaadin.client.ItemToBuyClient;
 import com.vaadin.domain.LongVal;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEvent;
@@ -7,9 +8,9 @@ import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.PropertyId;
@@ -17,12 +18,14 @@ import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.shared.Registration;
 
+import java.util.List;
+
 
 @Route(value = "itemToBuyDelete", layout = MainLayout.class)
 public class ItemToBuyDelete extends FormLayout {
 
     @PropertyId("idValue")
-    NumberField idValue = new NumberField ("Type id of Item to Buy You want to delete");
+    ComboBox<Long> idValue = new ComboBox<>("Select Item to Buy You want to delete");
 
     Button save = new Button("Save");
     Button delete = new Button("Delete");
@@ -32,12 +35,11 @@ public class ItemToBuyDelete extends FormLayout {
     private LongVal longVal;
 
 
-    public ItemToBuyDelete() {
+    public ItemToBuyDelete(List<Long> itemToBuyLongList, ItemToBuyClient itemToBuyClient) {
         addClassName("item-to-buy-delete");
         binder.bindInstanceFields(this);
-        idValue.setValue(1d);
-        idValue.setHasControls(true);
-        idValue.setMin(1);
+        idValue.setItems(itemToBuyLongList);
+        idValue.setItemLabelGenerator(Long -> itemToBuyClient.getItemToBuyById(Long).toString());
         add(
                 idValue,
                 createButtonsLayout()

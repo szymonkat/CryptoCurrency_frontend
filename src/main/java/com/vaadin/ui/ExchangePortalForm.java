@@ -26,8 +26,8 @@ public class ExchangePortalForm extends FormLayout {
     ComboBox<String> provider = new ComboBox<>("Provider");
     ComboBox<Currency> currencyToBuy = new ComboBox<>("Currency to Buy");
     ComboBox<Currency> currencyToPay = new ComboBox<>("Currency to Pay");
-    double ratio = 0.0;
-    LocalDateTime localDateTime = LocalDateTime.now();
+//    double ratio = 0.0;
+//    LocalDateTime localDateTime = LocalDateTime.now();
     Button save = new Button("Get Data");
     Button delete = new Button("Delete");
     Button close = new Button("Cancel");

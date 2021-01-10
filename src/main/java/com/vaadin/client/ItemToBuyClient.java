@@ -70,7 +70,7 @@ public class ItemToBuyClient {
         URI url = UriComponentsBuilder.fromHttpUrl(clientConfig.getBackApiAddress() + "items/finalize/" + walletId)
                 .queryParam("itemToBuyId", itemToBuyId)
                 .build().encode().toUri();
-        restTemplate.getForObject(getUrl(), null);
+        restTemplate.getForObject(url, ItemToBuyDto.class);
     }
 
 }
