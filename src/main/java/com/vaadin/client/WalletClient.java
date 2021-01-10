@@ -8,9 +8,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static java.util.Optional.ofNullable;
 
@@ -56,9 +54,12 @@ public class WalletClient {
     }
 
     public void updateWallet(WalletDto walletDto) {
+        String UPDATE_WALLET_ENDPOINT_URL = "http://localhost:8083/v1/wallet/";
+//        Map < String, String > params = new HashMap< String, String >();
+        //params.put("id", "1");
         URI url = UriComponentsBuilder.fromHttpUrl(clientConfig.getBackApiAddress() + "wallet/")
                 .build().encode().toUri();
-        restTemplate.put(url, walletDto);
+        restTemplate.put(UPDATE_WALLET_ENDPOINT_URL, walletDto);
     }
 
     public void deleteWallet(Long walletId) {

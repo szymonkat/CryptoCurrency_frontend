@@ -8,6 +8,7 @@ import com.vaadin.domain.LongVal;
 import com.vaadin.dto.ExchangePortalDto;
 import com.vaadin.dto.ItemToBuyDto;
 import com.vaadin.dto.WalletDto;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
@@ -58,6 +59,7 @@ public class ItemsToBuy extends VerticalLayout {
 
         // Create arguments for Form entries
         List<Long> exchangePortalDtoList = exchangePortalClient.getExchangePortals().stream()
+                .filter(m -> m.getItemToBuyDtoId() == null)
                 .map(n -> n.getId())
                 .collect(Collectors.toList());
 
@@ -94,6 +96,7 @@ public class ItemsToBuy extends VerticalLayout {
         itemToBuyClient.createItemToBuy(evt.getItemToBuy());
         updateList();
         closeSaveEditor();
+        UI.getCurrent().getPage().reload();
     }
 
     private void deleteItemToBuy(ItemToBuyDelete.DeleteEvent evt) {
@@ -141,6 +144,7 @@ public class ItemsToBuy extends VerticalLayout {
     }
 
     private void deleteItemToBuyWindow() {
+
         itemToBuyGrid.asSingleSelect().clear();
         closeSaveEditor();
         closeFinalizeEditor();
@@ -148,6 +152,7 @@ public class ItemsToBuy extends VerticalLayout {
     }
 
     private void finalizeItemToBuyWindow() {
+
         itemToBuyGrid.asSingleSelect().clear();
         closeSaveEditor();
         closeDeleteEditor();

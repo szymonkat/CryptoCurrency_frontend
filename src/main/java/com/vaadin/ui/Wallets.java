@@ -33,15 +33,22 @@ public class Wallets extends VerticalLayout {
         setSizeFull();
         configureWalletGrid();
 
-        Label walletLabel = new Label("Create Your wallet by typing unique name. If You want to delete existing wallet, select it manually and click \'delete\'.");
+        Label walletLabel1 = new Label("Create Your wallet by typing unique name.");
+        Label walletLabel2 = new Label("If You want to delete existing wallet, select it manually and click \'delete\'.");
+        Label walletLabel3 = new Label("If You want to edit Your wallet's name, first click on the item," +
+                " change name in the textfield and finally click \'edit\'.");
 
-        walletLabel.setClassName("labels");
-        add(walletLabel, walletGrid);
+
+        walletLabel1.setClassName("labels");
+        walletLabel2.setClassName("labels");
+        walletLabel3.setClassName("labels");
+        add(walletLabel1, walletLabel2, walletLabel3, walletGrid);
         updateList();
 
         form = new WalletForm();
         form.addListener(WalletForm.SaveEvent.class, this::saveWallet);
         form.addListener(WalletForm.DeleteEvent.class, this::deleteWallet);
+        form.addListener(WalletForm.EditEvent.class, this::editWallet);
         form.addListener(WalletForm.CloseEvent.class, e -> closeEditor());
 
         Div content = new Div(walletGrid, form);
@@ -65,8 +72,16 @@ public class Wallets extends VerticalLayout {
         closeEditor();
     }
 
+    private void editWallet(WalletForm.EditEvent evt) {
+        WalletDto walletDto = evt.getWalletDto();
+        walletDto.setName(form.name.getValue());
+        walletClient.updateWallet(walletDto);
+        updateList();
+        closeEditor();
+    }
+
     private HorizontalLayout getToolBar() {
-        Button addWalletDtoButton = new Button("Add or delete wallet", click -> addWalletDto());
+        Button addWalletDtoButton = new Button("Wallet Menu", click -> addWalletDto());
 
         HorizontalLayout toolbar = new HorizontalLayout(addWalletDtoButton);
         toolbar.addClassName("toolbar");

@@ -23,6 +23,7 @@ public class WalletForm extends FormLayout {
 
     Button save = new Button("Create");
     Button delete = new Button("Delete");
+    Button edit = new Button("Edit");
     Button close = new Button("Cancel");
 
     Binder<WalletDto> binder = new BeanValidationBinder<>(WalletDto.class);
@@ -46,6 +47,7 @@ public class WalletForm extends FormLayout {
     private Component createButtonsLayout() {
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         delete.addThemeVariants(ButtonVariant.LUMO_ERROR);
+        edit.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         close.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
 
         save.addClickShortcut(Key.ENTER);
@@ -53,11 +55,12 @@ public class WalletForm extends FormLayout {
 
         save.addClickListener(click -> validateAndSave());
         delete.addClickListener(click -> fireEvent(new DeleteEvent(this, walletDto)));
+        edit.addClickListener(click -> fireEvent(new EditEvent(this, walletDto)));
         close.addClickListener(click -> fireEvent(new CloseEvent(this)));
 
         binder.addStatusChangeListener(evt -> save.setEnabled(binder.isValid()));
 
-        return new HorizontalLayout(save, delete, close);
+        return new HorizontalLayout(save, delete, edit, close);
     }
 
     private void validateAndSave() {
@@ -95,6 +98,12 @@ public class WalletForm extends FormLayout {
             super(source, walletDto);
         }
 
+    }
+
+    public static class EditEvent extends WalletFormEvent {
+        EditEvent(WalletForm source, WalletDto walletDto) {
+            super(source, walletDto);
+        }
     }
 
     public static class CloseEvent extends WalletFormEvent {

@@ -24,7 +24,7 @@ a[highlight] {
 
 .wallet-form {
     flex: 2;
-    min-width: 350px;
+    min-width: 500px;
     margin-left: 2%;
     margin-right: 2%;
 }
