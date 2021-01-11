@@ -107,9 +107,9 @@ public class ItemsToBuy extends VerticalLayout {
         } catch (Exception e) {
             System.out.println(e.toString());
         }
-
         updateList();
         closeDeleteEditor();
+        UI.getCurrent().getPage().reload();
     }
 
     private void finalizeItemToBuy(ItemToBuyFinalize.FinalizeEvent evt) {
@@ -124,6 +124,7 @@ public class ItemsToBuy extends VerticalLayout {
         }
         updateList();
         closeFinalizeEditor();
+        UI.getCurrent().getPage().reload();
     }
 
     private HorizontalLayout getToolBar() {

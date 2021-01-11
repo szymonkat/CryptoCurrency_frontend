@@ -60,7 +60,7 @@ public class WalletForm extends FormLayout {
 
         binder.addStatusChangeListener(evt -> save.setEnabled(binder.isValid()));
 
-        return new HorizontalLayout(save, delete, edit, close);
+        return new HorizontalLayout(save, edit, delete, close);
     }
 
     private void validateAndSave() {
