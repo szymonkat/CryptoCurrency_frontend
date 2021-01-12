@@ -54,12 +54,9 @@ public class WalletClient {
     }
 
     public void updateWallet(WalletDto walletDto) {
-        String UPDATE_WALLET_ENDPOINT_URL = "http://localhost:8083/v1/wallet/";
-//        Map < String, String > params = new HashMap< String, String >();
-        //params.put("id", "1");
         URI url = UriComponentsBuilder.fromHttpUrl(clientConfig.getBackApiAddress() + "wallet/")
                 .build().encode().toUri();
-        restTemplate.put(UPDATE_WALLET_ENDPOINT_URL, walletDto);
+        restTemplate.put(url, walletDto);
     }
 
     public void deleteWallet(Long walletId) {
