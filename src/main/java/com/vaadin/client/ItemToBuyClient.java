@@ -54,11 +54,6 @@ public class ItemToBuyClient {
         return restTemplate.postForObject(url, itemToBuyDto, ItemToBuyDto.class);
     }
 
-     public void updateItemToBuy(ItemToBuyDto itemToBuyDto) {
-         URI url = UriComponentsBuilder.fromHttpUrl(clientConfig.getBackApiAddress() + "items/")
-                 .build().encode().toUri();
-         restTemplate.put(url, itemToBuyDto);
-     }
 
     public void deleteItemToBuy(Long itemToBuyId) {
         URI url = UriComponentsBuilder.fromHttpUrl(clientConfig.getBackApiAddress() + "items/" + itemToBuyId)

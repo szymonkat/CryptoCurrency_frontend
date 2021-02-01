@@ -38,9 +38,7 @@ public class MainLayout extends AppLayout {
         H1 logo = new H1("Crypto Client");
         logo.addClassName("logo");
 
-        Anchor logout = new Anchor("/logout", "Log out");
-
-        HorizontalLayout header = new HorizontalLayout(new DrawerToggle(), logo, logout);
+        HorizontalLayout header = new HorizontalLayout(new DrawerToggle(), logo);
         header.addClassName("header");
         header.setWidth("100%");
         header.expand(logo);
