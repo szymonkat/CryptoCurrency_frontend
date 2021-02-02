@@ -27,21 +27,17 @@ import java.util.stream.Collectors;
 @Route(value = "itemsToBuy", layout = MainLayout.class)
 @PageTitle("Items to buy")
 public class ItemsToBuy extends VerticalLayout {
-    
-    private ItemToBuySave itemToBuySave;
-    private ItemToBuyDelete itemToBuyDelete;
-    private ItemToBuyFinalize itemToBuyFinalize;
-
-    @Autowired
-    private ItemToBuyClient itemToBuyClient;
-
-    @Autowired
-    private ExchangePortalClient exchangePortalClient;
-
-    @Autowired
-    private WalletClient walletClient;
 
     final Grid<ItemToBuyDto> itemToBuyGrid = new Grid<>(ItemToBuyDto.class);
+    private final ItemToBuySave itemToBuySave;
+    private final ItemToBuyDelete itemToBuyDelete;
+    private final ItemToBuyFinalize itemToBuyFinalize;
+    @Autowired
+    private final ItemToBuyClient itemToBuyClient;
+    @Autowired
+    private final ExchangePortalClient exchangePortalClient;
+    @Autowired
+    private final WalletClient walletClient;
 
     public ItemsToBuy(ItemToBuyClient itemToBuyClient, ExchangePortalClient exchangePortalClient, WalletClient walletClient) {
         this.itemToBuyClient = itemToBuyClient;
@@ -51,7 +47,7 @@ public class ItemsToBuy extends VerticalLayout {
         addClassName("list-view");
         setSizeFull();
         configureItemToBuyGrid();
-        
+
         Label itemToBuyLabel = new Label("Create currency offers and finalize transactions: ");
         itemToBuyLabel.setClassName("labels");
         add(itemToBuyLabel, itemToBuyGrid);
@@ -68,7 +64,7 @@ public class ItemsToBuy extends VerticalLayout {
                 .collect(Collectors.toList());
 
         List<WalletDto> walletDtoList = walletClient.getWallets();
-        
+
         itemToBuySave = new ItemToBuySave(exchangePortalDtoList, exchangePortalClient);
         itemToBuySave.addListener(ItemToBuySave.SaveEvent.class, this::saveItemToBuy);
         itemToBuySave.addListener(ItemToBuySave.CloseEvent.class, e -> closeSaveEditor());

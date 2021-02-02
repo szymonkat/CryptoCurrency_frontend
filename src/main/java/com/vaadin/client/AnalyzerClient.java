@@ -22,7 +22,7 @@ public class AnalyzerClient {
 
     public ExchangePortalDto getMinValueExchangePortal(Currency currency) {
         URI url = UriComponentsBuilder.fromHttpUrl(clientConfig.getBackApiAddress() + "analyzer/min/")
-                .queryParam("currency",currency)
+                .queryParam("currency", currency)
                 .build().encode().toUri();
         try {
             ExchangePortalDto boardsResponse = restTemplate.getForObject(url, ExchangePortalDto.class);
@@ -34,7 +34,7 @@ public class AnalyzerClient {
 
     public ExchangePortalDto getMaxValueExchangePortal(Currency currency) {
         URI url = UriComponentsBuilder.fromHttpUrl(clientConfig.getBackApiAddress() + "analyzer/max/")
-                .queryParam("currency",currency)
+                .queryParam("currency", currency)
                 .build().encode().toUri();
         try {
             ExchangePortalDto boardsResponse = restTemplate.getForObject(url, ExchangePortalDto.class);
@@ -46,7 +46,7 @@ public class AnalyzerClient {
 
     public ExchangePortalDto getOldestValueExchangePortal(Currency currency) {
         URI url = UriComponentsBuilder.fromHttpUrl(clientConfig.getBackApiAddress() + "analyzer/old/")
-                .queryParam("currency",currency)
+                .queryParam("currency", currency)
                 .build().encode().toUri();
         try {
             ExchangePortalDto boardsResponse = restTemplate.getForObject(url, ExchangePortalDto.class);
@@ -58,7 +58,7 @@ public class AnalyzerClient {
 
     public ExchangePortalDto getNewestValueExchangePortal(Currency currency) {
         URI url = UriComponentsBuilder.fromHttpUrl(clientConfig.getBackApiAddress() + "analyzer/min/")
-                .queryParam("currency",currency)
+                .queryParam("currency", currency)
                 .build().encode().toUri();
         try {
             ExchangePortalDto boardsResponse = restTemplate.getForObject(url, ExchangePortalDto.class);

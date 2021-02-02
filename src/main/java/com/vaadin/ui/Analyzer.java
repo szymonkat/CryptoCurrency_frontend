@@ -16,10 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class Analyzer extends VerticalLayout {
 
     @Autowired
-    private AnalyzerClient analyzerClient;
+    private final AnalyzerClient analyzerClient;
 
     @Autowired
-    private ExchangePortalClient exchangePortalClient;
+    private final ExchangePortalClient exchangePortalClient;
 
     public Analyzer(AnalyzerClient analyzerClient, ExchangePortalClient exchangePortalClient) {
         this.analyzerClient = analyzerClient;
@@ -79,7 +79,7 @@ public class Analyzer extends VerticalLayout {
         Details component = new Details("BTC most expensive ratio",
                 new Text("Most expensive BTC: " + data));
         component.setOpened(true);
-            return component;
+        return component;
     }
 
     private Details getMinValueBtc() {

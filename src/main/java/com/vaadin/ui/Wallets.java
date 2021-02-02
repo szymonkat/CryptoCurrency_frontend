@@ -19,12 +19,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 @PageTitle("Wallets")
 public class Wallets extends VerticalLayout {
 
-    private WalletForm form;
-
-    @Autowired
-    private WalletClient walletClient;
-
     final Grid<WalletDto> walletGrid = new Grid<>(WalletDto.class);
+    private final WalletForm form;
+    @Autowired
+    private final WalletClient walletClient;
 
     public Wallets(WalletClient walletClient) {
         this.walletClient = walletClient;
@@ -34,9 +32,9 @@ public class Wallets extends VerticalLayout {
         configureWalletGrid();
 
         Label walletLabel1 = new Label("Create Your wallet by typing unique name.");
-        Label walletLabel2 = new Label("If You want to delete existing wallet, select it manually and click \'delete\'.");
+        Label walletLabel2 = new Label("If You want to delete existing wallet, select it manually and click 'delete'.");
         Label walletLabel3 = new Label("If You want to edit Your wallet's name, first click on the item," +
-                " change name in the textfield and finally click \'edit\'.");
+                " change name in the textfield and finally click 'edit'.");
 
 
         walletLabel1.setClassName("labels");

@@ -24,15 +24,12 @@ import java.util.List;
 @PageTitle("Exchange Portals")
 public class ExchangePortals extends VerticalLayout {
 
-    private ExchangePortalForm exchangePortalForm;
-
-    @Autowired
-    private ExchangePortalClient exchangePortalClient;
-
-    @Autowired
-    private ItemToBuyClient itemToBuyClient;
-
     final Grid<ExchangePortalDto> exchangePortalGrid = new Grid<>(ExchangePortalDto.class);
+    private final ExchangePortalForm exchangePortalForm;
+    @Autowired
+    private final ExchangePortalClient exchangePortalClient;
+    @Autowired
+    private final ItemToBuyClient itemToBuyClient;
 
     public ExchangePortals(ExchangePortalClient exchangePortalClient, ItemToBuyClient itemToBuyClient) {
         this.exchangePortalClient = exchangePortalClient;
@@ -41,7 +38,7 @@ public class ExchangePortals extends VerticalLayout {
         addClassName("list-view");
         setSizeFull();
         configureExchangePortalGrid();
-        
+
         Label exchangePortalLabel = new Label("Get Your latest Crypto ratings:");
         exchangePortalLabel.setClassName("labels");
         add(exchangePortalLabel, exchangePortalGrid);
@@ -112,7 +109,7 @@ public class ExchangePortals extends VerticalLayout {
         exchangePortalForm.setVisible(false);
         removeClassName("editing");
     }
-    
+
     private void configureExchangePortalGrid() {
         exchangePortalGrid.addClassName("exchange-portal-grid");
         exchangePortalGrid.setSizeFull();

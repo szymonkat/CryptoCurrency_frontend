@@ -81,9 +81,14 @@ public class ItemToBuyDelete extends FormLayout {
         fireEvent(new DeleteEvent(this, longVal));
     }
 
+    public <T extends ComponentEvent<?>> Registration addListener(Class<T> eventType,
+                                                                  ComponentEventListener<T> listener) {
+        return getEventBus().addListener(eventType, listener);
+    }
+
     // Events
     public static abstract class ItemToBuyDeleteEvent extends ComponentEvent<ItemToBuyDelete> {
-        private LongVal longVal;
+        private final LongVal longVal;
 
         protected ItemToBuyDeleteEvent(ItemToBuyDelete source, LongVal longVal) {
             super(source, false);
@@ -111,10 +116,5 @@ public class ItemToBuyDelete extends FormLayout {
         CloseEvent(ItemToBuyDelete source) {
             super(source, null);
         }
-    }
-
-    public <T extends ComponentEvent<?>> Registration addListener(Class<T> eventType,
-                                                                  ComponentEventListener<T> listener) {
-        return getEventBus().addListener(eventType, listener);
     }
 }

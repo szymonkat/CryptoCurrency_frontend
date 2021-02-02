@@ -90,9 +90,14 @@ public class WalletItemForm extends FormLayout {
         }
     }
 
+    public <T extends ComponentEvent<?>> Registration addListener(Class<T> eventType,
+                                                                  ComponentEventListener<T> listener) {
+        return getEventBus().addListener(eventType, listener);
+    }
+
     // Events
     public static abstract class WalletItemFormEvent extends ComponentEvent<WalletItemForm> {
-        private WalletItemDto walletItemDto;
+        private final WalletItemDto walletItemDto;
 
         protected WalletItemFormEvent(WalletItemForm source, WalletItemDto walletItemDto) {
             super(source, false);
@@ -120,10 +125,5 @@ public class WalletItemForm extends FormLayout {
         CloseEvent(WalletItemForm source) {
             super(source, null);
         }
-    }
-
-    public <T extends ComponentEvent<?>> Registration addListener(Class<T> eventType,
-                                                                  ComponentEventListener<T> listener) {
-        return getEventBus().addListener(eventType, listener);
     }
 }

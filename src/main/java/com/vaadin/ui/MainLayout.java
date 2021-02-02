@@ -51,10 +51,10 @@ public class MainLayout extends AppLayout {
         RouterLink listLinkWallets = new RouterLink("Wallets", Wallets.class);
         listLinkWallets.setHighlightCondition(HighlightConditions.sameLocation());
 
-      RouterLink listLinkWalletItems = new RouterLink("Wallet Items", WalletItems.class);
+        RouterLink listLinkWalletItems = new RouterLink("Wallet Items", WalletItems.class);
         listLinkWallets.setHighlightCondition(HighlightConditions.sameLocation());
 
-          RouterLink listExchangePortals = new RouterLink("Exchange Portals", ExchangePortals.class);
+        RouterLink listExchangePortals = new RouterLink("Exchange Portals", ExchangePortals.class);
         listLinkWallets.setHighlightCondition(HighlightConditions.sameLocation());
 
         RouterLink listItemsToBuy = new RouterLink("Items to buy", ItemsToBuy.class);

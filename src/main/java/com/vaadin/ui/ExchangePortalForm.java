@@ -26,7 +26,7 @@ public class ExchangePortalForm extends FormLayout {
     ComboBox<String> provider = new ComboBox<>("Provider");
     ComboBox<Currency> currencyToBuy = new ComboBox<>("Currency to Buy");
     ComboBox<Currency> currencyToPay = new ComboBox<>("Currency to Pay");
-//    double ratio = 0.0;
+    //    double ratio = 0.0;
 //    LocalDateTime localDateTime = LocalDateTime.now();
     Button save = new Button("Get Data");
     Button delete = new Button("Delete");
@@ -85,9 +85,14 @@ public class ExchangePortalForm extends FormLayout {
         }
     }
 
+    public <T extends ComponentEvent<?>> Registration addListener(Class<T> eventType,
+                                                                  ComponentEventListener<T> listener) {
+        return getEventBus().addListener(eventType, listener);
+    }
+
     // Events
     public static abstract class ExchangePortalFormEvent extends ComponentEvent<ExchangePortalForm> {
-        private ExchangePortalDto exchangePortalDto;
+        private final ExchangePortalDto exchangePortalDto;
 
         protected ExchangePortalFormEvent(ExchangePortalForm source, ExchangePortalDto exchangePortalDto) {
             super(source, false);
@@ -115,10 +120,5 @@ public class ExchangePortalForm extends FormLayout {
         CloseEvent(ExchangePortalForm source) {
             super(source, null);
         }
-    }
-
-    public <T extends ComponentEvent<?>> Registration addListener(Class<T> eventType,
-                                                                  ComponentEventListener<T> listener) {
-        return getEventBus().addListener(eventType, listener);
     }
 }

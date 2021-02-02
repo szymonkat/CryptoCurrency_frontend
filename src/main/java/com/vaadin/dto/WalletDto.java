@@ -29,6 +29,6 @@ public class WalletDto {
     public String toString() {
         return "Wallet: " +
                 "id=" + id +
-                ", name='" + name +"'";
+                ", name='" + name + "'";
     }
 }

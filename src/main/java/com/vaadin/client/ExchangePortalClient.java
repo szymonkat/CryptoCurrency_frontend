@@ -36,10 +36,10 @@ public class ExchangePortalClient {
                 .queryParam("currency", currency)
                 .queryParam("serviceName", serviceName)
                 .build().encode().toUri();
-        return restTemplate.postForObject(url, null,  ExchangePortalDto.class);
+        return restTemplate.postForObject(url, null, ExchangePortalDto.class);
     }
 
-   public List<ExchangePortalDto> getExchangePortals() {
+    public List<ExchangePortalDto> getExchangePortals() {
         try {
             ExchangePortalDto[] boardsResponse = restTemplate.getForObject(getUrl(), ExchangePortalDto[].class);
             return Arrays.asList(ofNullable(boardsResponse).orElse(new ExchangePortalDto[0]));

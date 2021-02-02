@@ -81,9 +81,14 @@ public class ItemToBuySave extends FormLayout {
         }
     }
 
+    public <T extends ComponentEvent<?>> Registration addListener(Class<T> eventType,
+                                                                  ComponentEventListener<T> listener) {
+        return getEventBus().addListener(eventType, listener);
+    }
+
     // Events
     public static abstract class ItemToBuySaveEvent extends ComponentEvent<ItemToBuySave> {
-        private ItemToBuyDto itemToBuyDto;
+        private final ItemToBuyDto itemToBuyDto;
 
         protected ItemToBuySaveEvent(ItemToBuySave source, ItemToBuyDto itemToBuyDto) {
             super(source, false);
@@ -101,15 +106,9 @@ public class ItemToBuySave extends FormLayout {
         }
     }
 
-
     public static class CloseEvent extends ItemToBuySaveEvent {
         CloseEvent(ItemToBuySave source) {
             super(source, null);
         }
-    }
-
-    public <T extends ComponentEvent<?>> Registration addListener(Class<T> eventType,
-                                                                  ComponentEventListener<T> listener) {
-        return getEventBus().addListener(eventType, listener);
     }
 }

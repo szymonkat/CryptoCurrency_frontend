@@ -25,24 +25,22 @@ import java.util.stream.Collectors;
 @PageTitle("Wallet Items")
 public class WalletItems extends VerticalLayout {
 
-    private WalletItemForm walletItemForm;
-    @Autowired
-    private WalletClient walletClient;
-
-    @Autowired
-    private WalletItemClient walletItemClient;
-
     final Grid<WalletItemDto> walletItemGrid = new Grid<>(WalletItemDto.class);
+    private final WalletItemForm walletItemForm;
+    @Autowired
+    private final WalletClient walletClient;
+    @Autowired
+    private final WalletItemClient walletItemClient;
 
     public WalletItems(WalletClient walletClient, WalletItemClient walletItemClient) {
         this.walletClient = walletClient;
-        this. walletItemClient = walletItemClient;
+        this.walletItemClient = walletItemClient;
 
         addClassName("list-view");
         setSizeFull();
         configureWalletItemGrid();
 
-        Label walletItemLabel = new Label("Top up wallet funds. If You want to delete existing wallet item, select it manually and click \'delete\' button.");
+        Label walletItemLabel = new Label("Top up wallet funds. If You want to delete existing wallet item, select it manually and click 'delete' button.");
         walletItemLabel.setClassName("labels");
         add(walletItemLabel, walletItemGrid);
         updateList();

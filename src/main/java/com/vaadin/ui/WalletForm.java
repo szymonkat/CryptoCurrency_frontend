@@ -40,7 +40,7 @@ public class WalletForm extends FormLayout {
     }
 
     public void setWallet(WalletDto walletDto) {
-        this.walletDto= walletDto;
+        this.walletDto = walletDto;
         binder.readBean(walletDto);
     }
 
@@ -73,13 +73,18 @@ public class WalletForm extends FormLayout {
         }
     }
 
+    public <T extends ComponentEvent<?>> Registration addListener(Class<T> eventType,
+                                                                  ComponentEventListener<T> listener) {
+        return getEventBus().addListener(eventType, listener);
+    }
+
     // Events
     public static abstract class WalletFormEvent extends ComponentEvent<WalletForm> {
-        private WalletDto walletDto;
+        private final WalletDto walletDto;
 
         protected WalletFormEvent(WalletForm source, WalletDto walletDto) {
             super(source, false);
-            this.walletDto= walletDto;
+            this.walletDto = walletDto;
         }
 
         public WalletDto getWalletDto() {
@@ -110,10 +115,5 @@ public class WalletForm extends FormLayout {
         CloseEvent(WalletForm source) {
             super(source, null);
         }
-    }
-
-    public <T extends ComponentEvent<?>> Registration addListener(Class<T> eventType,
-                                                                  ComponentEventListener<T> listener) {
-        return getEventBus().addListener(eventType, listener);
     }
 }

@@ -28,16 +28,16 @@ public class AllData extends VerticalLayout {
     final Grid<ItemToBuyDto> itemToBuyGrid = new Grid<>(ItemToBuyDto.class);
 
     @Autowired
-    private ItemToBuyClient itemToBuyClient;
+    private final ItemToBuyClient itemToBuyClient;
 
     @Autowired
-    private ExchangePortalClient exchangePortalClient;
+    private final ExchangePortalClient exchangePortalClient;
 
     @Autowired
-    private WalletClient walletClient;
+    private final WalletClient walletClient;
 
     @Autowired
-    private WalletItemClient walletItemClient;
+    private final WalletItemClient walletItemClient;
 
     public AllData(ItemToBuyClient itemToBuyClient,
                    ExchangePortalClient exchangePortalClient,

@@ -24,9 +24,9 @@ import java.util.List;
 public class ItemToBuyFinalize extends FormLayout {
 
     @PropertyId("idValue")
-    ComboBox<Long> idValue = new ComboBox<> ("Select Item to Buy You want to finalize");
+    ComboBox<Long> idValue = new ComboBox<>("Select Item to Buy You want to finalize");
     ComboBox<WalletDto> walletDto = new ComboBox<>("Choose wallet owner");
-    
+
 
     Button save = new Button("Save");
     Button finalize = new Button("Finalize");
@@ -89,9 +89,14 @@ public class ItemToBuyFinalize extends FormLayout {
         fireEvent(new FinalizeEvent(this, itemFinalize));
     }
 
+    public <T extends ComponentEvent<?>> Registration addListener(Class<T> eventType,
+                                                                  ComponentEventListener<T> listener) {
+        return getEventBus().addListener(eventType, listener);
+    }
+
     // Events
     public static abstract class ItemToBuyFinalizeEvent extends ComponentEvent<ItemToBuyFinalize> {
-        private ItemFinalize itemFinalize;
+        private final ItemFinalize itemFinalize;
 
         protected ItemToBuyFinalizeEvent(ItemToBuyFinalize source, ItemFinalize itemFinalize) {
             super(source, false);
@@ -119,10 +124,5 @@ public class ItemToBuyFinalize extends FormLayout {
         CloseEvent(ItemToBuyFinalize source) {
             super(source, null);
         }
-    }
-
-    public <T extends ComponentEvent<?>> Registration addListener(Class<T> eventType,
-                                                                  ComponentEventListener<T> listener) {
-        return getEventBus().addListener(eventType, listener);
     }
 }
