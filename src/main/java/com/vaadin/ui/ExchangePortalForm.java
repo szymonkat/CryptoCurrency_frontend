@@ -17,7 +17,6 @@ import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.shared.Registration;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Route(value = "exchangePortalForm", layout = MainLayout.class)
