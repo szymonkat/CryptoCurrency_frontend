@@ -21,8 +21,8 @@ Please make sure You have following software:
 ### 4. Project
 In order to run project: <br>
 1) Create a database in MySQL, based on application.properties settings 
-2) Run "TestApplication" in project_back repository (https://github.com/szymonkat/vaadin_back).
-3) Run "TestApplication" in project_front repository (https://github.com/szymonkat/vaadin_front).
+2) Run "TestApplication" in project_back repository (https://github.com/szymonkat/CryptoCurrency_backend).
+3) Run "TestApplication" in project_front repository (https://github.com/szymonkat/CryptoCurrency_frontend).
 4) Enter "http://localhost:8082/" in Your browser
 
 ### 5. Endpoint description
